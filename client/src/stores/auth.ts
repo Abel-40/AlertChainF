@@ -59,6 +59,17 @@ export const useAuthStore = defineStore('auth', () => {
       })
       
       console.log('✅ Registration response:', response)
+      
+      // Auto-login after successful registration
+      console.log('🔑 Auto-login after registration...')
+      const loginSuccess = await login(email, password)
+      
+      if (loginSuccess) {
+        console.log('✅ Auto-login successful')
+      } else {
+        console.warn('⚠️ Auto-login failed, user needs to login manually')
+      }
+      
       return true
     } catch (err: any) {
       console.error('❌ Registration error:', err)

@@ -1,51 +1,73 @@
 <template>
-  <div v-if="asset" class="space-y-6 animate-fade-in">
+  <div v-if="asset" class="space-y-8 animate-fade-in">
     <!-- Back Button -->
-    <button @click="$router.back()" class="group flex items-center gap-2 text-muted-foreground hover:text-primary transition-all duration-300">
-      <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
-      <span class="font-medium">Back</span>
+    <button @click="$router.back()" class="group flex items-center gap-3 text-muted-foreground hover:text-primary transition-all duration-300 px-2 py-2">
+      <div class="w-10 h-10 rounded-xl bg-secondary/50 border border-border/50 flex items-center justify-center group-hover:bg-primary/10 group-hover:border-primary/30 transition-all duration-300">
+        <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </div>
+      <span class="font-semibold">Back</span>
     </button>
 
     <!-- Asset Hero Section -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border border-border/50 rounded-3xl p-8 shadow-2xl">
+    <div class="relative overflow-hidden bg-gradient-to-br from-card/95 via-card/80 to-card/60 backdrop-blur-2xl border border-border/50 rounded-3xl p-8 shadow-2xl shadow-primary/5">
       <!-- Background Glow -->
-      <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+      <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-primary/25 via-accent/20 to-transparent rounded-full blur-3xl -translate-y-1/3 translate-x-1/3" />
+      <div class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-accent/15 to-transparent rounded-full blur-3xl translate-y-1/3 -translate-x-1/3" />
       
       <div class="relative z-10">
         <div class="flex items-start justify-between mb-6">
           <div class="flex items-center gap-5">
-            <div class="relative">
-              <div class="absolute inset-0 bg-gradient-to-br from-primary/40 to-accent/40 rounded-2xl blur-xl" />
-              <img :src="asset.image" :alt="asset.name" class="relative w-16 h-16 rounded-2xl ring-4 ring-border/50 shadow-2xl" />
+            <div class="relative group">
+              <div class="absolute inset-0 bg-gradient-to-br from-primary/50 to-accent/50 rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500" />
+              <img :src="asset.image" :alt="asset.name" class="relative w-16 h-16 rounded-2xl ring-4 ring-border/50 shadow-2xl group-hover:scale-105 transition-transform duration-300" />
             </div>
             <div>
-              <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{{ asset.name }}</h1>
+              <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">{{ asset.name }}</h1>
               <div class="flex items-center gap-3">
-                <span class="px-3 py-1 bg-primary/10 border border-primary/30 text-primary text-sm font-semibold rounded-full uppercase tracking-wider">{{ asset.symbol }}</span>
-                <span class="text-sm text-muted-foreground font-mono">{{ asset.coingecko_id }}</span>
+                <span class="px-3 py-1 bg-primary/15 border border-primary/40 text-primary text-sm font-bold rounded-full uppercase tracking-wider">{{ asset.symbol }}</span>
+                <span class="text-sm text-muted-foreground font-mono bg-secondary/50 px-3 py-1 rounded-lg">{{ asset.coingecko_id }}</span>
               </div>
             </div>
           </div>
           
-          <!-- Remove Asset Button -->
-          <button
-            @click="handleRemoveAsset"
-            class="group/remove p-3 bg-destructive/10 border border-destructive/30 rounded-xl hover:bg-destructive hover:text-white transition-all duration-300"
-            title="Remove from watchlist"
-          >
-            <svg class="w-5 h-5 group-hover/remove:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-          </button>
+          <div class="flex items-center gap-3">
+            <!-- More Details Button -->
+            <button
+              @click="$router.push(`/assets/${asset.coingecko_id}/more`)"
+              class="group/btn px-5 py-2.5 bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/30 text-primary rounded-xl hover:from-primary/20 hover:to-accent/20 hover:border-primary/50 transition-all duration-300 font-semibold text-sm hover:shadow-lg hover:shadow-primary/20"
+            >
+              <span class="flex items-center gap-2">
+                More Details
+                <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+            </button>
+            <!-- Remove Asset Button -->
+            <button
+              @click="handleRemoveAsset"
+              class="group/remove p-3 bg-destructive/10 border-2 border-destructive/30 rounded-xl hover:bg-destructive hover:text-white hover:border-destructive hover:shadow-xl hover:shadow-destructive/30 transition-all duration-300"
+              title="Remove from watchlist"
+            >
+              <svg class="w-5 h-5 group-hover/remove:scale-110 group-hover/remove:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
         </div>
         
         <!-- Price Display -->
         <div class="flex items-end gap-4">
-          <div>
-            <p class="text-5xl font-bold font-mono bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">${{ formatPrice(asset.current_price) }}</p>
-            <p class="text-sm text-muted-foreground mt-2">Current Market Price</p>
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 blur-xl" />
+            <div class="relative">
+              <p class="text-5xl font-bold font-mono bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">${{ formatPrice(asset.current_price) }}</p>
+            </div>
+          </div>
+          <div class="pb-2">
+            <p class="text-sm text-muted-foreground font-medium">Current Market Price</p>
           </div>
         </div>
       </div>
@@ -54,147 +76,198 @@
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <!-- Market Cap -->
-      <div class="group bg-gradient-to-br from-card/80 to-card/50 backdrop-blur-xl border border-border/50 rounded-2xl p-6 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300">
-        <div class="flex items-center justify-between mb-4">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-            </svg>
+      <div class="group relative overflow-hidden bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-xl border border-border/50 rounded-2xl p-8 hover:border-blue-500/60 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 hover:-translate-y-1">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-500" />
+        <div class="relative z-10">
+          <div class="flex items-center justify-between mb-6">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+            </div>
           </div>
+          <h3 class="text-muted-foreground text-sm font-semibold mb-3 uppercase tracking-wider">Asset ID</h3>
+          <p class="text-2xl font-bold font-mono truncate bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">{{ asset.id?.slice(0, 8) || 'N/A' }}</p>
         </div>
-        <h3 class="text-muted-foreground text-sm font-medium mb-2">Asset ID</h3>
-        <p class="text-xl font-bold font-mono truncate">{{ asset.id?.slice(0, 8) || 'N/A' }}</p>
       </div>
 
       <!-- 24h Volume -->
-      <div class="group bg-gradient-to-br from-card/80 to-card/50 backdrop-blur-xl border border-border/50 rounded-2xl p-6 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300">
-        <div class="flex items-center justify-between mb-4">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
+      <div class="group relative overflow-hidden bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-xl border border-border/50 rounded-2xl p-8 hover:border-purple-500/60 hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 hover:-translate-y-1">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-500" />
+        <div class="relative z-10">
+          <div class="flex items-center justify-between mb-6">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
           </div>
+          <h3 class="text-muted-foreground text-sm font-semibold mb-3 uppercase tracking-wider">Active Alerts</h3>
+          <p class="text-4xl font-bold font-mono bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">{{ activeAlertsCount }}</p>
         </div>
-        <h3 class="text-muted-foreground text-sm font-medium mb-2">Active Alerts</h3>
-        <p class="text-3xl font-bold font-mono">{{ activeAlertsCount }}</p>
       </div>
 
       <!-- Circulating Supply -->
-      <div class="group bg-gradient-to-br from-card/80 to-card/50 backdrop-blur-xl border border-border/50 rounded-2xl p-6 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300">
-        <div class="flex items-center justify-between mb-4">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+      <div class="group relative overflow-hidden bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-xl border border-border/50 rounded-2xl p-8 hover:border-emerald-500/60 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-500 hover:-translate-y-1">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-500" />
+        <div class="relative z-10">
+          <div class="flex items-center justify-between mb-6">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
           </div>
+          <h3 class="text-muted-foreground text-sm font-semibold mb-3 uppercase tracking-wider">Alert Status</h3>
+          <p class="text-2xl font-bold text-emerald-500">Ready</p>
         </div>
-        <h3 class="text-muted-foreground text-sm font-medium mb-2">Alert Status</h3>
-        <p class="text-xl font-bold text-emerald-500">Ready</p>
       </div>
     </div>
 
     <!-- Price History Chart -->
-    <div class="bg-gradient-to-br from-card/80 to-card/50 backdrop-blur-xl border border-border/50 rounded-3xl p-8 shadow-2xl">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold">Price History</h2>
-        <div class="flex items-center gap-2">
-          <span class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 rounded-full text-sm font-semibold">
+    <div class="relative overflow-hidden bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border border-border/50 rounded-3xl shadow-2xl">
+      <!-- Background Glow Effects -->
+      <div class="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div class="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-accent/10 to-transparent rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+      
+      <div class="relative z-10 p-8">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Price History</h2>
+            <p class="text-sm text-muted-foreground mt-1 font-medium">{{ chartTimeRangeLabel }}</p>
+          </div>
+          <span class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 rounded-xl text-sm font-semibold">
             <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-            Live Updates
+            Live
           </span>
         </div>
-      </div>
-      
-      <!-- Chart Area -->
-      <div v-if="priceSnapshots.length > 0" class="relative h-80">
-        <div class="absolute inset-0 flex items-end justify-between gap-2 px-4">
-          <div
-            v-for="(snapshot, index) in priceSnapshots.slice(0, 30).reverse()"
-            :key="snapshot.id"
-            class="flex-1 bg-gradient-to-t from-primary/60 to-accent/60 rounded-t-lg hover:from-primary hover:to-accent transition-all duration-300 cursor-pointer group/bar"
-            :style="{ height: `${getBarHeight(snapshot.price_usd)}%` }"
+        
+        <!-- Time Range Selector -->
+        <div class="flex flex-wrap gap-2 mb-6 p-2 bg-secondary/30 rounded-2xl backdrop-blur-sm">
+          <button
+            v-for="range in timeRanges"
+            :key="range.value"
+            @click="selectTimeRange(range)"
+            :class="[
+              'flex-1 min-w-[60px] px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300',
+              selectedTimeRange.value === range.value
+                ? 'bg-gradient-to-r from-primary to-accent text-white shadow-lg shadow-primary/30 scale-105'
+                : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+            ]"
           >
-            <!-- Tooltip -->
-            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-card border border-border rounded-lg shadow-xl opacity-0 group-hover/bar:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-              <p class="text-xs font-semibold">${{ formatPrice(snapshot.price_usd) }}</p>
-              <p class="text-xs text-muted-foreground">{{ formatDate(snapshot.timestamp) }}</p>
+            {{ range.label }}
+          </button>
+        </div>
+        
+        <!-- Chart Component -->
+        <div class="relative">
+          <div v-if="!isChartLoading && chartData.length > 0" class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-card/50 to-card/30 border border-border/30 p-6" style="height: 540px;">
+            <div class="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-accent/5 pointer-events-none" />
+            <PriceChart :snapshots="chartData" :time-range="selectedTimeRange" />
+          </div>
+          <div v-else-if="isChartLoading" class="rounded-2xl flex items-center justify-center" style="height: 540px;">
+            <div class="text-center">
+              <div class="relative inline-block mb-6">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-full blur-2xl animate-pulse" />
+                <div class="relative animate-spin rounded-full h-20 w-20 border-4 border-primary/30 border-t-primary" />
+              </div>
+              <p class="text-lg text-muted-foreground font-semibold mb-2">{{ chartLoadingMessage }}</p>
+              <p class="text-sm text-muted-foreground/70">Please wait...</p>
+              <div class="mt-6 flex justify-center gap-1">
+                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0s" />
+                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.1s" />
+                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.2s" />
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div v-else class="h-80 bg-secondary/30 rounded-2xl flex items-center justify-center">
-        <div class="text-center">
-          <svg class="w-20 h-20 mx-auto mb-4 text-muted-foreground/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-          </svg>
-          <p class="text-muted-foreground font-medium">Price history being collected</p>
-          <p class="text-sm text-muted-foreground mt-2">Chart will appear after price updates</p>
+          <div v-else class="rounded-2xl flex items-center justify-center" style="height: 540px;">
+            <div class="text-center">
+              <div class="w-24 h-24 mx-auto mb-6 rounded-2xl bg-secondary/50 flex items-center justify-center">
+                <svg class="w-12 h-12 text-muted-foreground/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <p class="text-lg text-muted-foreground font-semibold mb-2">No price data available</p>
+              <p class="text-sm text-muted-foreground/70">Try selecting a different time range</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Create Alert Section -->
-    <div class="bg-gradient-to-br from-card/80 to-card/50 backdrop-blur-xl border border-border/50 rounded-3xl p-8 shadow-2xl">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1h6z" />
-          </svg>
-        </div>
-        <div>
-          <h2 class="text-2xl font-bold">Create Price Alert</h2>
-          <p class="text-sm text-muted-foreground">Get notified when price reaches your target</p>
-        </div>
-      </div>
+    <div class="relative overflow-hidden bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border border-border/50 rounded-3xl shadow-2xl">
+      <!-- Background Glow -->
+      <div class="absolute top-1/2 left-0 w-96 h-96 bg-gradient-to-r from-primary/10 to-transparent rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
       
-      <form @submit.prevent="handleCreateAlert" class="space-y-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-foreground">Target Price ($)</label>
-            <input
-              v-model="alertForm.targetPrice"
-              type="number"
-              step="any"
-              class="w-full px-6 py-4 bg-secondary/50 border-2 border-border/50 rounded-xl text-lg font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
-              placeholder="0.00"
-              required
-            />
+      <div class="relative z-10 p-10">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-xl shadow-primary/30">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1h6z" />
+            </svg>
           </div>
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-foreground">Condition</label>
-            <select
-              v-model="alertForm.conditionType"
-              class="w-full px-6 py-4 bg-secondary/50 border-2 border-border/50 rounded-xl text-lg font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
-            >
-              <option value="ABOVE">📈 Price goes ABOVE</option>
-              <option value="BELOW">📉 Price goes BELOW</option>
-            </select>
+          <div>
+            <h2 class="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Create Price Alert</h2>
+            <p class="text-sm text-muted-foreground mt-1 font-medium">Get notified when price reaches your target</p>
           </div>
         </div>
-        <button type="submit" class="group/btn w-full py-4 bg-gradient-to-r from-primary to-accent text-white font-bold text-lg rounded-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
-          <span class="flex items-center justify-center gap-3">
-            <svg class="w-6 h-6 group-hover/btn:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Create Alert
-          </span>
-        </button>
-      </form>
+        
+        <form @submit.prevent="handleCreateAlert" class="space-y-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-3">
+              <label class="block text-sm font-bold text-foreground uppercase tracking-wider">Target Price ($)</label>
+              <input
+                v-model="alertForm.targetPrice"
+                type="number"
+                step="any"
+                class="w-full px-6 py-5 bg-secondary/50 border-2 border-border/50 rounded-xl text-lg font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:border-primary/30"
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div class="space-y-3">
+              <label class="block text-sm font-bold text-foreground uppercase tracking-wider">Condition</label>
+              <select
+                v-model="alertForm.conditionType"
+                class="w-full px-6 py-5 bg-secondary/50 border-2 border-border/50 rounded-xl text-lg font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:border-primary/30 cursor-pointer"
+              >
+                <option value="ABOVE">📈 Price goes ABOVE</option>
+                <option value="BELOW">📉 Price goes BELOW</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="group/btn relative w-full py-5 bg-gradient-to-r from-primary to-accent text-white font-bold text-lg rounded-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-accent to-primary opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
+            <span class="relative flex items-center justify-center gap-3">
+              <svg class="w-6 h-6 group-hover/btn:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Create Alert
+            </span>
+          </button>
+        </form>
+      </div>
     </div>
 
     <!-- Active Alerts for this Asset -->
-    <div class="bg-gradient-to-br from-card/80 to-card/50 backdrop-blur-xl border border-border/50 rounded-3xl shadow-2xl overflow-hidden">
-      <div class="p-8 border-b border-border/50">
-        <h2 class="text-2xl font-bold">Active Alerts for {{ asset.name }}</h2>
-        <p class="text-sm text-muted-foreground mt-1">Your configured price alerts</p>
-      </div>
-      <div class="p-8">
-        <EmptyState
-          title="No alerts for this asset"
-          description="Create an alert above to get notified when price reaches your target"
-          action-label="Create Your First Alert"
-          @action="document.querySelector('form')?.scrollIntoView({ behavior: 'smooth' })"
-        />
+    <div class="relative overflow-hidden bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border border-border/50 rounded-3xl shadow-2xl">
+      <!-- Background Glow -->
+      <div class="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-accent/10 to-transparent rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
+      
+      <div class="relative z-10">
+        <div class="p-10 border-b border-border/50">
+          <h2 class="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Active Alerts for {{ asset.name }}</h2>
+          <p class="text-sm text-muted-foreground mt-2 font-medium">Your configured price alerts</p>
+        </div>
+        <div class="p-10">
+          <EmptyState
+            title="No alerts for this asset"
+            description="Create an alert above to get notified when price reaches your target"
+            action-label="Create Your First Alert"
+            @action="scrollToAlertForm"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -243,6 +316,8 @@ import { useAssetsStore } from '@/stores/assets'
 import { useAlertsStore } from '@/stores/alerts'
 import { useToast } from '@/composables/useToast'
 import EmptyState from '@/components/ui/empty-state.vue'
+import PriceChart from '@/components/PriceChart.vue'
+import { HistoricalPricePoint, PriceSnapshotOut } from '@/types'
 
 const route = useRoute()
 const router = useRouter()
@@ -251,9 +326,43 @@ const alertsStore = useAlertsStore()
 const { toast } = useToast()
 
 const asset = ref(assetsStore.currentAsset)
-const priceSnapshots = ref<any[]>([])
+const priceSnapshots = ref<PriceSnapshotOut[]>([])
 const activeAlertsCount = ref(0)
 const isAdding = ref(false)
+
+// Chart data and loading states
+const chartData = ref<HistoricalPricePoint[]>([])
+const isChartLoading = ref(false)
+const chartLoadingMessage = ref('Loading price data...')
+
+// Time range selection
+const selectedTimeRange = ref({ label: '5m', value: 0, isHours: false })
+const timeRanges = [
+  { label: '5m', value: 0, isHours: false },
+  { label: '1H', value: 1/24, isHours: true },
+  { label: '3H', value: 3/24, isHours: true },
+  { label: '6H', value: 6/24, isHours: true },
+  { label: '12H', value: 12/24, isHours: true },
+  { label: '1D', value: 1, isHours: true },
+  { label: '7D', value: 7, isHours: true },
+  { label: '30D', value: 30, isHours: true },
+  { label: '1Y', value: 365, isHours: true },
+]
+
+const chartTimeRangeLabel = computed(() => {
+  if (selectedTimeRange.value.value === 0) {
+    return 'Real-time price movements (last 5 minutes)'
+  } else if (selectedTimeRange.value.value < 1) {
+    const hours = Math.round(selectedTimeRange.value.value * 24)
+    return `Price history (last ${hours} hour${hours > 1 ? 's' : ''})`
+  } else {
+    const days = selectedTimeRange.value.value
+    if (days >= 365) {
+      return `Price history (last ${Math.round(days / 365)} year${days >= 730 ? 's' : ''})`
+    }
+    return `Price history (last ${days} day${days > 1 ? 's' : ''})`
+  }
+})
 
 const alertForm = ref({
   targetPrice: null as number | null,
@@ -270,24 +379,57 @@ function formatPrice(price: number) {
   }
 }
 
-function getBarHeight(price: number): number {
-  if (priceSnapshots.value.length === 0) return 0
-  const prices = priceSnapshots.value.map(s => s.price_usd)
-  const minPrice = Math.min(...prices)
-  const maxPrice = Math.max(...prices)
-  const range = maxPrice - minPrice
-  if (range === 0) return 50
-  return ((price - minPrice) / range) * 80 + 10 // 10% to 90%
+async function selectTimeRange(range: typeof timeRanges[0]) {
+  selectedTimeRange.value = range
+  const coingeckoId = route.params.coingecko_id as string
+  
+  if (!coingeckoId || !asset.value) return
+  
+  isChartLoading.value = true
+  
+  try {
+    if (range.value === 0) {
+      // 5 minutes - use price snapshots from DB
+      chartLoadingMessage.value = 'Loading recent price data...'
+      await assetsStore.fetchPriceSnapshots(coingeckoId, 1, 50)
+      
+      // Convert PriceSnapshotOut to HistoricalPricePoint format
+      chartData.value = assetsStore.priceSnapshots.map(snapshot => ({
+        timestamp: snapshot.timestamp,
+        price_usd: snapshot.price_usd
+      }))
+    } else {
+      // 1 hour or more - fetch historical data
+      chartLoadingMessage.value = `Fetching ${range.label} price data...`
+      await assetsStore.fetchHistoricalPrices(coingeckoId, range.value)
+      chartData.value = assetsStore.historicalPrices
+    }
+    
+    if (chartData.value.length === 0) {
+      toast({
+        title: 'No Data Available',
+        description: `No price data available for ${range.label} time range`,
+        variant: 'default',
+      })
+    }
+  } catch (error) {
+    console.error('❌ Error fetching chart data:', error)
+    toast({
+      title: 'Error',
+      description: 'Failed to load price data',
+      variant: 'destructive',
+    })
+    chartData.value = []
+  } finally {
+    isChartLoading.value = false
+  }
 }
 
-function formatDate(timestamp: string): string {
-  const date = new Date(timestamp)
-  return date.toLocaleDateString('en-US', { 
-    month: 'short', 
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
+function scrollToAlertForm() {
+  const form = document.querySelector('form')
+  if (form) {
+    form.scrollIntoView({ behavior: 'smooth' })
+  }
 }
 
 async function handleAddAndReload() {
@@ -300,22 +442,35 @@ async function handleAddAndReload() {
   const success = await assetsStore.addAsset(coingeckoId)
   
   if (success) {
+    console.log('✅ Asset added, reloading full page data...')
     toast({
       title: 'Asset Added!',
       description: 'Asset added to your watchlist. Loading details...',
       variant: 'success',
     })
     
+    // Clear error state first
+    assetsStore.error = null
+    
     // Reload the asset details
     await assetsStore.fetchAssetWithPrice(coingeckoId)
     asset.value = assetsStore.currentAsset
     
+    console.log('💎 Asset loaded after add:', asset.value)
+    
     if (asset.value) {
-      // Fetch price snapshots
-      await assetsStore.fetchPriceSnapshots(coingeckoId, 1, 50)
-      priceSnapshots.value = assetsStore.priceSnapshots
+      // Load initial chart data (5m)
+      await selectTimeRange(timeRanges[0])
+      
+      // Prefetch coin details in background
+      assetsStore.fetchCoinDetails(coingeckoId).then(() => {
+        console.log('✅ Coin details prefetched after adding asset')
+      }).catch(err => {
+        console.warn('⚠️ Background prefetch of coin details failed:', err)
+      })
     }
   } else {
+    console.error('❌ Failed to add asset')
     toast({
       title: 'Error',
       description: 'Failed to add asset. Please try again.',
@@ -390,11 +545,18 @@ onMounted(async () => {
   
   console.log('💎 Asset loaded:', asset.value)
   
-  // Fetch price snapshots for chart
-  await assetsStore.fetchPriceSnapshots(coingeckoId, 1, 50)
-  priceSnapshots.value = assetsStore.priceSnapshots
+  // Prefetch coin details in background (don't await - let it load asynchronously)
+  // This way when user clicks "More Details", data will already be cached
+  assetsStore.fetchCoinDetails(coingeckoId).then(() => {
+    console.log('✅ Coin details prefetched in background')
+  }).catch(err => {
+    console.warn('⚠️ Background prefetch of coin details failed:', err)
+  })
   
-  console.log('📊 Snapshots loaded:', priceSnapshots.value.length)
+  // Load initial chart data (5m by default)
+  await selectTimeRange(timeRanges[0])
+  
+  console.log('📊 Chart data loaded:', chartData.value.length)
   
   // TODO: Fetch active alerts count from alerts store
   activeAlertsCount.value = 0
@@ -409,8 +571,15 @@ watch(
       await assetsStore.fetchAssetWithPrice(newId as string)
       asset.value = assetsStore.currentAsset
       
-      await assetsStore.fetchPriceSnapshots(newId as string, 1, 50)
-      priceSnapshots.value = assetsStore.priceSnapshots
+      // Prefetch coin details in background for the new asset
+      assetsStore.fetchCoinDetails(newId as string).then(() => {
+        console.log('✅ Coin details prefetched in background for:', newId)
+      }).catch(err => {
+        console.warn('⚠️ Background prefetch of coin details failed:', err)
+      })
+      
+      // Reload chart data with current time range
+      await selectTimeRange(selectedTimeRange.value)
     }
   }
 )

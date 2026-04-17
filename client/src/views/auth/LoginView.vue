@@ -196,12 +196,8 @@ async function handleLogin() {
       variant: 'success',
     })
     
-    // Check if user has selected assets
-    if (!authStore.user?.assets_selected) {
-      router.push('/asset-selection')
-    } else {
-      router.push('/dashboard')
-    }
+    // Always redirect to dashboard after login
+    router.push('/dashboard')
   } else {
     toast({
       title: 'Login Failed',

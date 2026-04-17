@@ -75,6 +75,101 @@ export interface PriceSnapshotOut {
   timestamp: string
 }
 
+export interface HistoricalPricePoint {
+  timestamp: string
+  price_usd: number
+}
+
+export interface HistoricalPriceResponse {
+  coingecko_id: string
+  duration_days: number
+  snapshots_count: number
+  price_data: HistoricalPricePoint[]
+  source: 'cache' | 'fresh'
+  task_result?: number
+}
+
+export interface CoinDetailHeader {
+  name: string
+  symbol: string
+  image: string
+  rank: number | null
+}
+
+export interface CoinDetailPricePanel {
+  current_price: number | null
+  changes: {
+    '1h': number | null
+    '24h': number | null
+    '7d': number | null
+    '14d': number | null
+    '30d': number | null
+    '1y': number | null
+  }
+  high_24h: number | null
+  low_24h: number | null
+}
+
+export interface CoinDetailMarketStats {
+  market_cap: number | null
+  fdv: number | null
+  volume_24h: number | null
+  circulating_supply: number | null
+  total_supply: number | null
+  max_supply: number | null
+}
+
+export interface CoinDetailATH {
+  price: number | null
+  date: string | null
+  change_percentage: number | null
+}
+
+export interface CoinDetailATL {
+  price: number | null
+  date: string | null
+  change_percentage: number | null
+}
+
+export interface CoinDetailHistoricalHighlights {
+  ath: CoinDetailATH
+  atl: CoinDetailATL
+}
+
+export interface CoinDetailAbout {
+  description: string
+  genesis: string | null
+  algorithm: string | null
+  categories: string[]
+}
+
+export interface CoinDetailLinks {
+  homepage: string | null
+  whitepaper: string | null
+  blockchain_site: string | null
+  subreddit: string | null
+  twitter: string | null
+  github: string | null
+  official_forum: string | null
+}
+
+export interface CoinDetailCommunity {
+  reddit_subscribers: number | null
+  sentiment_up_percentage: number | null
+  sentiment_down_percentage: number | null
+  watchlist_users: number | null
+}
+
+export interface CoinDetailResponse {
+  header: CoinDetailHeader
+  price_panel: CoinDetailPricePanel
+  market_stats: CoinDetailMarketStats
+  historical_highlights: CoinDetailHistoricalHighlights
+  about: CoinDetailAbout
+  links: CoinDetailLinks
+  community: CoinDetailCommunity
+}
+
 export interface PaginatedPriceSnapshot {
   items: PriceSnapshotOut[]
   pagination: {

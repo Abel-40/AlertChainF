@@ -19,6 +19,7 @@ import DashboardView from '@/views/DashboardView.vue'
 import AssetSelectionView from '@/views/AssetSelectionView.vue'
 import AssetSearchView from '@/views/AssetSearchView.vue'
 import AssetDetailView from '@/views/AssetDetailView.vue'
+import AssetMoreDetailsView from '@/views/AssetMoreDetailsView.vue'
 import AlertsView from '@/views/AlertsView.vue'
 import NotificationsView from '@/views/NotificationsView.vue'
 import ProfileView from '@/views/ProfileView.vue'
@@ -62,6 +63,12 @@ const routes: RouteRecordRaw[] = [
         component: ResetPasswordView,
         meta: { requiresAuth: false, title: 'Reset Password' },
       },
+      {
+        path: 'asset-selection',
+        name: 'AssetSelection',
+        component: AssetSelectionView,
+        meta: { requiresAuth: true, title: 'Select Your Assets' },
+      },
     ],
   },
 
@@ -78,12 +85,6 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true, title: 'Dashboard' },
       },
       {
-        path: 'asset-selection',
-        name: 'AssetSelection',
-        component: AssetSelectionView,
-        meta: { requiresAuth: true, title: 'Select Your Assets' },
-      },
-      {
         path: 'assets/search',
         name: 'AssetSearch',
         component: AssetSearchView,
@@ -94,6 +95,12 @@ const routes: RouteRecordRaw[] = [
         name: 'AssetDetail',
         component: AssetDetailView,
         meta: { requiresAuth: true, title: 'Asset Details' },
+      },
+      {
+        path: 'assets/:coingecko_id/more',
+        name: 'AssetMoreDetails',
+        component: AssetMoreDetailsView,
+        meta: { requiresAuth: true, title: 'Asset Full Details' },
       },
       {
         path: 'alerts',
@@ -145,18 +152,7 @@ router.beforeEach(async (to, from, next) => {
     authStore.isAuthenticated &&
     ['/login', '/register', '/forgot-password', '/reset-password'].includes(to.path)
   ) {
-    // Check if user has selected assets
-    if (!authStore.user?.assets_selected) {
-      next('/asset-selection')
-    } else {
-      next('/dashboard')
-    }
-    return
-  }
-
-  // Redirect to asset selection after successful login if not selected
-  if (to.path === '/dashboard' && authStore.user && !authStore.user.assets_selected) {
-    next('/asset-selection')
+    next('/dashboard')
     return
   }
 

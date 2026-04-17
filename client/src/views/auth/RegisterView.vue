@@ -182,10 +182,11 @@ async function handleRegister() {
   if (success) {
     toast({
       title: 'Account Created!',
-      description: 'Please login with your credentials.',
+      description: 'Welcome to AlertChain! Let\'s select your assets to track.',
       variant: 'success',
     })
-    router.push('/login')
+    // Redirect to asset selection (user is auto-logged in)
+    router.push('/asset-selection')
   } else {
     toast({
       title: 'Registration Failed',

@@ -12,7 +12,9 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@vueuse/core": "^10.7.0",
     "axios": "^1.6.2",
+    "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",
@@ -20,11 +22,11 @@
     "lightweight-charts": "^4.1.0",
     "lucide-vue-next": "^0.294.0",
     "pinia": "^2.1.6",
-    "@vueuse/core": "^10.7.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "vee-validate": "^4.12.0",
     "vue": "^3.3.8",
+    "vue-chartjs": "^5.3.3",
     "vue-router": "^4.2.5",
     "zod": "^3.22.4"
   },

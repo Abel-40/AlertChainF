@@ -69,10 +69,15 @@
                     <p class="text-xs font-medium text-muted-foreground uppercase tracking-wider">{{ asset.symbol || asset.coingecko_id }}</p>
                   </div>
                 </div>
+                <!-- Already Tracked Badge -->
+                <span v-if="isAssetTracked(asset.coingecko_id)" class="px-2 py-1 bg-primary/20 border border-primary/40 text-primary text-xs font-semibold rounded-full">
+                  ✓ Tracking
+                </span>
               </div>
               
               <!-- Action Button -->
               <button
+                v-if="!isAssetTracked(asset.coingecko_id)"
                 @click.stop="handleAddAsset(asset.coingecko_id)"
                 class="w-full px-3 py-2.5 bg-gradient-to-r from-primary/15 to-accent/15 border border-primary/30 text-primary text-sm font-semibold rounded-lg hover:from-primary hover:to-accent hover:text-white transition-all duration-300 shadow-md hover:shadow-lg group-hover:scale-105"
               >
@@ -81,6 +86,19 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                   </svg>
                   Add to Watchlist
+                </span>
+              </button>
+              <button
+                v-else
+                @click.stop="$router.push(`/assets/${asset.coingecko_id}`)"
+                class="w-full px-3 py-2.5 bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <span class="flex items-center justify-center gap-1.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  View Details
                 </span>
               </button>
             </div>
@@ -96,17 +114,24 @@
       />
     </div>
 
-    <!-- Popular Assets -->
+    <!-- Your Tracked Assets -->
     <div class="bg-card/80 backdrop-blur-xl border border-border rounded-2xl shadow-xl">
       <div class="p-6 border-b border-border">
-        <h2 class="text-xl font-bold">Popular Assets</h2>
-        <p class="text-sm text-muted-foreground mt-1">Most tracked cryptocurrencies</p>
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold">Your Tracked Assets</h2>
+            <p class="text-sm text-muted-foreground mt-1">Assets you're currently monitoring</p>
+          </div>
+          <span class="px-3 py-1.5 bg-primary/10 border border-primary/30 text-primary text-sm font-semibold rounded-full">
+            {{ assetsStore.trackedAssets.length }} asset{{ assetsStore.trackedAssets.length !== 1 ? 's' : '' }}
+          </span>
+        </div>
       </div>
 
       <!-- Loading -->
       <div v-if="assetsStore.isLoading" class="p-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div v-for="i in 8" :key="i" class="bg-secondary/50 rounded-xl p-6 animate-pulse">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div v-for="i in 6" :key="i" class="bg-secondary/50 rounded-xl p-6 animate-pulse">
             <div class="flex items-center gap-4 mb-4">
               <div class="w-12 h-12 rounded-full bg-secondary" />
               <div class="flex-1">
@@ -119,12 +144,12 @@
         </div>
       </div>
 
-      <!-- Popular Grid -->
-      <div v-else class="p-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Tracked Assets Grid -->
+      <div v-else-if="assetsStore.trackedAssets.length > 0" class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div
-            v-for="asset in assetsStore.popularAssets"
-            :key="asset.coingecko_id"
+            v-for="asset in assetsStore.trackedAssets"
+            :key="asset.id"
             class="group relative bg-gradient-to-br from-card/90 to-card/50 backdrop-blur-xl border border-border/50 rounded-2xl p-5 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-2 cursor-pointer overflow-hidden"
             @click="$router.push(`/assets/${asset.coingecko_id}`)"
           >
@@ -140,7 +165,7 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <h3 class="font-bold text-sm group-hover:text-primary transition-colors duration-200 truncate">{{ asset.name }}</h3>
-                  <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{{ asset.symbol || asset.coingecko_id }}</p>
+                  <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{{ asset.symbol }}</p>
                 </div>
               </div>
               
@@ -149,22 +174,29 @@
                 <p class="text-lg font-bold font-mono bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">${{ formatPrice(asset.current_price) }}</p>
               </div>
               
-              <!-- Action Button -->
+              <!-- View Details Button -->
               <button
-                @click.stop="handleAddAsset(asset.coingecko_id)"
                 class="w-full px-3 py-2 bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30 text-primary text-sm font-semibold rounded-lg hover:from-primary hover:to-accent hover:text-white transition-all duration-300 shadow-md hover:shadow-lg group-hover:scale-105"
               >
                 <span class="flex items-center justify-center gap-1.5">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  Track
+                  View Details
                 </span>
               </button>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Empty State -->
+      <EmptyState
+        v-else
+        title="No assets tracked yet"
+        description="Search for cryptocurrencies above to start tracking"
+      />
     </div>
   </div>
 </template>
@@ -178,6 +210,10 @@ import EmptyState from '@/components/ui/empty-state.vue'
 const assetsStore = useAssetsStore()
 const { toast } = useToast()
 const searchQuery = ref('')
+
+function isAssetTracked(coingeckoId: string): boolean {
+  return assetsStore.trackedAssets.some(asset => asset.coingecko_id === coingeckoId)
+}
 
 function formatPrice(price: number) {
   if (price >= 1) {
@@ -202,15 +238,21 @@ function handleSearch() {
 }
 
 async function handleAddAsset(assetId: string) {
+  console.log('➕ Adding asset:', assetId)
   const success = await assetsStore.addAsset(assetId)
   
   if (success) {
+    console.log('✅ Asset added successfully, refreshing tracked assets...')
+    // Refresh tracked assets list
+    await assetsStore.fetchTrackedAssets()
+    
     toast({
       title: 'Asset Added!',
       description: 'The asset has been added to your tracking list',
       variant: 'success',
     })
   } else {
+    console.error('❌ Failed to add asset')
     toast({
       title: 'Error',
       description: 'Failed to add asset. Please try again.',
@@ -220,8 +262,8 @@ async function handleAddAsset(assetId: string) {
 }
 
 onMounted(async () => {
-  console.log('🔍 AssetSearchView mounted, fetching popular assets...')
-  await assetsStore.fetchPopularAssets()
-  console.log('🔥 Popular assets loaded:', assetsStore.popularAssets)
+  console.log('🔍 AssetSearchView mounted, fetching tracked assets...')
+  await assetsStore.fetchTrackedAssets()
+  console.log('✅ Tracked assets loaded:', assetsStore.trackedAssets.length)
 })
 </script>

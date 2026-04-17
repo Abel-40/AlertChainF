@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { AssetOutFromDb, AssetOutFromSearch, PriceSnapshotOut } from '@/types'
+import { AssetOutFromDb, AssetOutFromSearch, PriceSnapshotOut, CoinDetailResponse, HistoricalPricePoint } from '@/types'
 import api from '@/services/api'
 
 export const useAssetsStore = defineStore('assets', () => {
@@ -9,6 +9,8 @@ export const useAssetsStore = defineStore('assets', () => {
   const popularAssets = ref<AssetOutFromSearch[]>([])
   const currentAsset = ref<AssetOutFromDb | null>(null)
   const priceSnapshots = ref<PriceSnapshotOut[]>([])
+  const coinDetails = ref<CoinDetailResponse | null>(null)
+  const historicalPrices = ref<HistoricalPricePoint[]>([])
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 
@@ -156,12 +158,118 @@ export const useAssetsStore = defineStore('assets', () => {
     }
   }
 
+  async function fetchCoinDetails(assetId: string, retryCount = 0) {
+    const maxRetries = 6 // Maximum 6 retries (30 seconds total)
+    
+    try {
+      console.log(`🔍 Fetching coin details for: ${assetId} (attempt ${retryCount + 1})`)
+      
+      // Only set loading on first attempt
+      if (retryCount === 0) {
+        isLoading.value = true
+        error.value = null
+      }
+      
+      const response = await api.get(`/alertchain/assets/details/${assetId}`)
+      
+      console.log('📦 Full response:', response.data)
+      console.log('📦 HTTP status:', response.status, 'Success:', response.data.success)
+      
+      // Backend returns: { success: true, message: "...", data: {...} }
+      // HTTP 200 = success or cache miss with 202
+      // HTTP 202 = data is being fetched
+      
+      if (response.status === 200 && response.data.success && response.data.data) {
+        // Check if data is valid coin details (has header) or "fetching" status
+        const data = response.data.data
+        
+        if (data.header) {
+          // Valid coin details response
+          coinDetails.value = data
+          console.log('✅ Coin details fetched successfully:', data.header.name)
+          return // Success - exit early
+        } else if (data.status === 'fetching') {
+          // Backend returned 200 but data shows it's still fetching
+          console.log('⏳ Data still being fetched, will retry')
+          // Fall through to retry logic
+        } else {
+          // Unexpected data format
+          console.warn('⚠️ Unexpected data format:', data)
+          error.value = 'Invalid response format'
+          coinDetails.value = null
+          return
+        }
+      }
+      
+      // HTTP 202 or still fetching - need to retry
+      if (response.status === 202 || (response.data.data && response.data.data.status === 'fetching')) {
+        if (retryCount < maxRetries) {
+          console.log(`⏳ Coin details being fetched, retrying in 5 seconds... (attempt ${retryCount + 1}/${maxRetries})`)
+          await new Promise(resolve => setTimeout(resolve, 5000))
+          await fetchCoinDetails(assetId, retryCount + 1) // Retry with incremented count
+        } else {
+          // Max retries reached
+          error.value = 'Failed to fetch coin details after multiple attempts. Please try again later.'
+          console.error('❌ Max retries reached for coin details')
+          coinDetails.value = null
+        }
+      } else if (response.status === 200 && !response.data.success) {
+        // Request failed
+        error.value = response.data.message || 'Request failed'
+        coinDetails.value = null
+      }
+    } catch (err: any) {
+      console.error('❌ Error fetching coin details:', err)
+      error.value = err.response?.data?.detail || err.response?.data?.message || 'Failed to fetch coin details'
+      coinDetails.value = null
+    } finally {
+      // Only set loading to false if this is the top-level call (not a retry)
+      if (retryCount === 0) {
+        isLoading.value = false
+      }
+    }
+  }
+
+  async function fetchHistoricalPrices(assetId: string, duration: number) {
+    isLoading.value = true
+    error.value = null
+    try {
+      console.log(`📊 Fetching historical prices for ${assetId} (${duration} days)`)
+      const response = await api.post(`/alertchain/assets/price/historical/${assetId}`, null, {
+        params: { duration },
+      })
+      
+      console.log('📦 Historical prices response:', response.data)
+      
+      // Check if response has the expected structure
+      if (response.data.data && response.data.data.price_data) {
+        historicalPrices.value = response.data.data.price_data
+        console.log(`📈 Historical prices loaded: ${historicalPrices.value.length} points`)
+      } else {
+        console.warn('⚠️ Unexpected response format:', response.data)
+        historicalPrices.value = []
+      }
+      
+      return historicalPrices.value
+    } catch (err: any) {
+      console.error('❌ Error fetching historical prices:', err)
+      console.error('❌ Error response:', err.response?.data)
+      error.value = err.response?.data?.detail || err.response?.data?.message || 'Failed to fetch historical prices'
+      historicalPrices.value = []
+      return []
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     trackedAssets,
     searchResults,
     popularAssets,
     currentAsset,
     priceSnapshots,
+    coinDetails,
+    historicalPrices,
     isLoading,
     error,
     getAssetById,
@@ -173,5 +281,7 @@ export const useAssetsStore = defineStore('assets', () => {
     removeAsset,
     fetchAssetWithPrice,
     fetchPriceSnapshots,
+    fetchCoinDetails,
+    fetchHistoricalPrices,
   }
 })
