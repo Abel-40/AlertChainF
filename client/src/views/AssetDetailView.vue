@@ -11,40 +11,36 @@
     </button>
 
     <!-- Asset Hero Section -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-card/95 via-card/80 to-card/60 backdrop-blur-2xl border border-border/50 rounded-3xl p-8 shadow-2xl shadow-primary/5">
-      <!-- Background Glow -->
-      <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-primary/25 via-accent/20 to-transparent rounded-full blur-3xl -translate-y-1/3 translate-x-1/3" />
-      <div class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-accent/15 to-transparent rounded-full blur-3xl translate-y-1/3 -translate-x-1/3" />
+    <div class="relative overflow-hidden bg-gradient-to-br from-card/95 via-card/80 to-card/60 backdrop-blur-2xl border border-border/50 rounded-3xl shadow-2xl shadow-primary/5">
+      <!-- Animated Background Effects -->
+      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-primary/30 via-accent/20 to-transparent rounded-full blur-3xl -translate-y-1/3 translate-x-1/3 animate-pulse" style="animation-duration: 4s" />
+      <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-accent/20 via-primary/15 to-transparent rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 animate-pulse" style="animation-duration: 5s" />
+      <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 animate-pulse" style="animation-duration: 6s" />
       
-      <div class="relative z-10">
-        <div class="flex items-start justify-between mb-6">
-          <div class="flex items-center gap-5">
+      <div class="relative z-10 p-8">
+        <!-- Top Section: Asset Info & Actions -->
+        <div class="flex items-start justify-between mb-8">
+          <div class="flex items-center gap-6">
+            <!-- Asset Icon with Glow -->
             <div class="relative group">
-              <div class="absolute inset-0 bg-gradient-to-br from-primary/50 to-accent/50 rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500" />
-              <img :src="asset.image" :alt="asset.name" class="relative w-16 h-16 rounded-2xl ring-4 ring-border/50 shadow-2xl group-hover:scale-105 transition-transform duration-300" />
+              <div class="absolute inset-0 bg-gradient-to-br from-primary/60 to-accent/60 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500 animate-pulse" style="animation-duration: 3s" />
+              <div class="relative w-20 h-20 rounded-3xl overflow-hidden ring-4 ring-border/50 shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                <img :src="asset.image" :alt="asset.name" class="w-full h-full object-cover" />
+              </div>
             </div>
+            
+            <!-- Asset Name & Tags -->
             <div>
-              <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">{{ asset.name }}</h1>
+              <h1 class="text-5xl font-bold mb-3 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">{{ asset.name }}</h1>
               <div class="flex items-center gap-3">
-                <span class="px-3 py-1 bg-primary/15 border border-primary/40 text-primary text-sm font-bold rounded-full uppercase tracking-wider">{{ asset.symbol }}</span>
-                <span class="text-sm text-muted-foreground font-mono bg-secondary/50 px-3 py-1 rounded-lg">{{ asset.coingecko_id }}</span>
+                <span class="px-4 py-1.5 bg-primary/15 border-2 border-primary/40 text-primary text-sm font-bold rounded-full uppercase tracking-wider shadow-lg shadow-primary/20">{{ asset.symbol }}</span>
+                <span class="text-sm text-muted-foreground font-mono bg-secondary/50 px-3 py-1.5 rounded-lg border border-border/30">{{ asset.coingecko_id }}</span>
               </div>
             </div>
           </div>
           
+          <!-- Action Buttons -->
           <div class="flex items-center gap-3">
-            <!-- More Details Button -->
-            <button
-              @click="$router.push(`/assets/${asset.coingecko_id}/more`)"
-              class="group/btn px-5 py-2.5 bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/30 text-primary rounded-xl hover:from-primary/20 hover:to-accent/20 hover:border-primary/50 transition-all duration-300 font-semibold text-sm hover:shadow-lg hover:shadow-primary/20"
-            >
-              <span class="flex items-center gap-2">
-                More Details
-                <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </span>
-            </button>
             <!-- Remove Asset Button -->
             <button
               @click="handleRemoveAsset"
@@ -55,71 +51,91 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
             </button>
+            <!-- More Details Button -->
+            <button
+              @click="$router.push(`/assets/${asset.coingecko_id}/more`)"
+              class="group/btn px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 font-semibold text-sm hover:scale-105 active:scale-95"
+            >
+              <span class="flex items-center gap-2">
+                More Details
+                <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+            </button>
           </div>
         </div>
         
         <!-- Price Display -->
-        <div class="flex items-end gap-4">
-          <div class="relative">
-            <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 blur-xl" />
+        <div class="mb-8">
+          <div class="flex items-end gap-4">
             <div class="relative">
-              <p class="text-5xl font-bold font-mono bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">${{ formatPrice(asset.current_price) }}</p>
+              <div class="absolute inset-0 bg-gradient-to-r from-primary/30 to-accent/30 blur-2xl" />
+              <div class="relative">
+                <p class="text-6xl font-bold font-mono bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">${{ formatPrice(asset.current_price) }}</p>
+              </div>
             </div>
-          </div>
-          <div class="pb-2">
-            <p class="text-sm text-muted-foreground font-medium">Current Market Price</p>
+            <div class="pb-3">
+              <p class="text-base text-muted-foreground font-semibold">Current Market Price</p>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Market Cap -->
-      <div class="group relative overflow-hidden bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-xl border border-border/50 rounded-2xl p-8 hover:border-blue-500/60 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 hover:-translate-y-1">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-500" />
-        <div class="relative z-10">
-          <div class="flex items-center justify-between mb-6">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
-              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-              </svg>
+        
+        <!-- Stats Display - Inline with Icons -->
+        <div class="flex flex-wrap items-center gap-8 pt-6 border-t-2 border-border/30">
+          <!-- Asset ID -->
+          <div class="flex items-center gap-4 group">
+            <div class="relative">
+              <div class="absolute inset-0 bg-blue-500/30 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300" />
+              <div class="relative w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-blue-400 font-bold uppercase tracking-wider mb-1">Asset ID</p>
+              <p class="text-lg font-bold font-mono text-blue-300">{{ asset.id?.slice(0, 8) || 'N/A' }}</p>
             </div>
           </div>
-          <h3 class="text-muted-foreground text-sm font-semibold mb-3 uppercase tracking-wider">Asset ID</h3>
-          <p class="text-2xl font-bold font-mono truncate bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">{{ asset.id?.slice(0, 8) || 'N/A' }}</p>
-        </div>
-      </div>
 
-      <!-- 24h Volume -->
-      <div class="group relative overflow-hidden bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-xl border border-border/50 rounded-2xl p-8 hover:border-purple-500/60 hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 hover:-translate-y-1">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-500" />
-        <div class="relative z-10">
-          <div class="flex items-center justify-between mb-6">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
-              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
+          <!-- Divider -->
+          <div class="hidden md:block w-px h-16 bg-gradient-to-b from-transparent via-border/50 to-transparent" />
+
+          <!-- Active Alerts -->
+          <div class="flex items-center gap-4 group">
+            <div class="relative">
+              <div class="absolute inset-0 bg-purple-500/30 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300" />
+              <div class="relative w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1h6z" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">Active Alerts</p>
+              <p class="text-2xl font-bold font-mono text-purple-300">{{ activeAlertsCount }}</p>
             </div>
           </div>
-          <h3 class="text-muted-foreground text-sm font-semibold mb-3 uppercase tracking-wider">Active Alerts</h3>
-          <p class="text-4xl font-bold font-mono bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">{{ activeAlertsCount }}</p>
-        </div>
-      </div>
 
-      <!-- Circulating Supply -->
-      <div class="group relative overflow-hidden bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-xl border border-border/50 rounded-2xl p-8 hover:border-emerald-500/60 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-500 hover:-translate-y-1">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-500" />
-        <div class="relative z-10">
-          <div class="flex items-center justify-between mb-6">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
-              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+          <!-- Divider -->
+          <div class="hidden md:block w-px h-16 bg-gradient-to-b from-transparent via-border/50 to-transparent" />
+
+          <!-- Alert Status -->
+          <div class="flex items-center gap-4 group">
+            <div class="relative">
+              <div class="absolute inset-0 bg-emerald-500/30 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300" />
+              <div class="relative w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Alert Status</p>
+              <p class="text-xl font-bold text-emerald-300">Ready</p>
             </div>
           </div>
-          <h3 class="text-muted-foreground text-sm font-semibold mb-3 uppercase tracking-wider">Alert Status</h3>
-          <p class="text-2xl font-bold text-emerald-500">Ready</p>
         </div>
       </div>
     </div>
