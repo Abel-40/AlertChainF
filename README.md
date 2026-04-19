@@ -21,17 +21,17 @@ A modern, real-time cryptocurrency price alert tracking application built with V
 
 ## 📸 Screenshots
 
-### Dashboard
-![Dashboard](./screenshots/dashboard.png)
+### Landing Page
+<img src="./screenshots/landing-page.jpg" alt="Landing Page" width="100%" />
 
-### Asset Search
-![Asset Search](./screenshots/asset-search.png)
+### Asset Detail
+<img src="./screenshots/asset-detail.jpg" alt="Asset Detail" width="100%" />
 
-### Asset Details
-![Asset Details](./screenshots/asset-detail.png)
+### Alerts Workspace
+<img src="./screenshots/alerts-page.jpg" alt="Alerts Workspace" width="100%" />
 
-### Price Alerts
-![Alerts](./screenshots/alerts.png)
+### Profile Settings
+<img src="./screenshots/user-profile.jpg" alt="Profile Settings" width="100%" />
 
 ## Tech Stack
 
