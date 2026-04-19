@@ -126,26 +126,39 @@ pnpm format
 ```
 alertchain-frontend/
 ├── client/
-│   ├── src/
-│   │   ├── components/        # Reusable UI components
-│   │   │   └── ui/           # Base UI components
-│   │   ├── composables/       # Vue composables (custom hooks)
-│   │   ├── layouts/           # Page layouts
-│   │   ├── router/            # Vue Router configuration
-│   │   ├── services/          # API services
-│   │   ├── stores/            # Pinia stores
-│   │   ├── types/             # TypeScript type definitions
-│   │   ├── views/             # Page components
-│   │   ├── App.vue            # Root component
-│   │   ├── index.css          # Global styles
-│   │   └── main.ts            # Application entry point
-│   └── index.html
-├── server/                    # Express server for production
-├── shared/                    # Shared constants
-├── .env                       # Environment variables (not in git)
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
+│   ├── index.html                     # Vite HTML entry
+│   └── src/
+│       ├── components/                # Shared Vue components
+│       │   ├── data-display/          # Dashboard metric cards
+│       │   ├── layout/                # Branding, headers, section shells
+│       │   ├── navigation/            # Sidebar, tabs, and mobile nav
+│       │   └── ui/                    # Base UI primitives
+│       ├── composables/               # Reusable Vue composition utilities
+│       ├── constants/                 # App navigation and static config
+│       ├── layouts/                   # Auth and dashboard page layouts
+│       ├── lib/                       # Shared helper functions
+│       ├── router/                    # Route definitions and guards
+│       ├── services/                  # API client layer
+│       ├── stores/                    # Pinia state modules
+│       ├── styles/                    # Design tokens and CSS utilities
+│       ├── types/                     # Shared TypeScript types
+│       ├── views/
+│       │   └── auth/                  # Login, register, forgot/reset password pages
+│       ├── App.vue                    # Root app shell
+│       ├── index.css                  # Global CSS entry
+│       └── main.ts                    # Vue bootstrap
+├── patches/                           # Local package patches
+├── server/
+│   └── index.ts                       # Express server entry for production builds
+├── shared/
+│   └── const.ts                       # Shared constants used across app/server
+├── .env                               # Local environment variables
+├── .env.example                       # Environment template
+├── docker-compose.yml                 # Docker dev setup
+├── Dockerfile                         # Container image definition
+├── package.json                       # Scripts and dependencies
+├── tsconfig.json                      # TypeScript config
+├── vite.config.ts                     # Vite configuration
 └── README.md
 ```
 
