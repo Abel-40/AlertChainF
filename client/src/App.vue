@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-background text-foreground">
+  <div class="min-h-screen bg-background text-foreground selection:bg-primary/15 selection:text-foreground">
     <router-view />
   </div>
 </template>
@@ -11,15 +11,6 @@ import { useThemeStore } from '@/stores/theme'
 const themeStore = useThemeStore()
 
 onMounted(() => {
-  // Initialize theme on app load
-  if (themeStore.isDarkMode) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
+  themeStore.init()
 })
 </script>
-
-<style scoped>
-/* App styles */
-</style>

@@ -1,0 +1,9 @@
+node_modules
+dist
+.git
+.manus-logs
+.qoder
+coverage
+*.log
+Dockerfile*
+docker-compose*.yml

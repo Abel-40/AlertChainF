@@ -1,13 +1,13 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-4">
-    <div class="w-full max-w-md">
+  <div class="rounded-[2rem] border border-border/70 bg-card/70 px-4 py-8 shadow-[0_24px_70px_rgba(15,23,42,0.16)] backdrop-blur-2xl sm:px-6">
+    <div class="mx-auto w-full max-w-md">
       <!-- Logo -->
       <div class="flex justify-center mb-8">
         <Logo />
       </div>
 
       <!-- Form Card -->
-      <div class="card border-slate-700">
+      <div class="rounded-3xl border border-border/70 bg-background/55 p-8">
         <h1 class="text-2xl font-bold text-center mb-6">Reset Password</h1>
 
         <form @submit.prevent="handleResetPassword" class="space-y-4">

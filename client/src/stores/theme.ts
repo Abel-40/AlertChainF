@@ -1,37 +1,61 @@
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { ref, watch } from 'vue'
 
 export const useThemeStore = defineStore('theme', () => {
-  const isDarkMode = ref(
-    localStorage.getItem('theme') === 'dark' ||
-      (!localStorage.getItem('theme') &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
+  const mode = ref<'light' | 'dark' | 'system'>(
+    (localStorage.getItem('theme-preference') as 'light' | 'dark' | 'system' | null) || 'system'
   )
+  const systemDark = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
+
+  const resolvedTheme = computed<'light' | 'dark'>(() => {
+    if (mode.value === 'system') {
+      return systemDark.value ? 'dark' : 'light'
+    }
+
+    return mode.value
+  })
+
+  const isDarkMode = computed(() => resolvedTheme.value === 'dark')
+
+  function applyTheme() {
+    const root = document.documentElement
+    root.classList.toggle('dark', isDarkMode.value)
+    root.dataset.theme = resolvedTheme.value
+    localStorage.setItem('theme-preference', mode.value)
+  }
+
+  function handleSystemThemeChange(event: MediaQueryListEvent) {
+    systemDark.value = event.matches
+    applyTheme()
+  }
+
+  function init() {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    systemDark.value = mediaQuery.matches
+
+    if ('addEventListener' in mediaQuery) {
+      mediaQuery.addEventListener('change', handleSystemThemeChange)
+    } else {
+      mediaQuery.addListener(handleSystemThemeChange)
+    }
+
+    applyTheme()
+  }
+
+  function setTheme(theme: 'light' | 'dark' | 'system') {
+    mode.value = theme
+    applyTheme()
+  }
 
   function toggleTheme() {
-    isDarkMode.value = !isDarkMode.value
+    setTheme(isDarkMode.value ? 'light' : 'dark')
   }
-
-  function setTheme(dark: boolean) {
-    isDarkMode.value = dark
-  }
-
-  // Watch for changes and update localStorage and DOM
-  watch(
-    isDarkMode,
-    (newValue) => {
-      localStorage.setItem('theme', newValue ? 'dark' : 'light')
-      if (newValue) {
-        document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-      }
-    },
-    { immediate: true }
-  )
 
   return {
+    mode,
+    resolvedTheme,
     isDarkMode,
+    init,
     toggleTheme,
     setTheme,
   }
