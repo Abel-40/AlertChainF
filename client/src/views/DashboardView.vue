@@ -1,80 +1,189 @@
 <template>
   <div class="space-y-6 md:space-y-8 animate-fade-in">
     <!-- Welcome Header -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border border-border/50 rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
-      <!-- Background Glow -->
-      <div class="absolute top-0 right-0 w-48 h-48 md:w-96 md:h-96 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+    <div class="relative overflow-hidden bg-gradient-to-br from-primary/10 via-card/80 to-accent/10 backdrop-blur-2xl border-2 border-primary/20 rounded-2xl md:rounded-3xl shadow-2xl shadow-primary/10">
+      <!-- Animated Background Effects -->
+      <div class="absolute top-0 right-0 w-40 h-40 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-gradient-to-br from-primary/30 via-accent/20 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 animate-pulse" style="animation-duration: 4s" />
+      <div class="absolute bottom-0 left-0 w-32 h-32 sm:w-48 sm:h-48 md:w-80 md:h-80 bg-gradient-to-tr from-accent/25 via-primary/15 to-transparent rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 animate-pulse" style="animation-duration: 5s" />
+      <div class="absolute top-1/2 left-1/2 w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2 animate-pulse" style="animation-duration: 6s" />
       
-      <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6">
-        <div>
-          <h1 class="text-2xl md:text-4xl font-bold mb-2">
-            Welcome back, <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{{ authStore.user?.full_name || 'User' }}</span>
-          </h1>
-          <p class="text-sm md:text-lg text-muted-foreground">Here's your crypto portfolio overview</p>
+      <div class="relative z-10 p-5 sm:p-6 md:p-8 lg:p-10">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6">
+          <div class="flex-1">
+            <!-- Greeting Icon -->
+            <div class="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+              <div class="relative group">
+                <div class="absolute inset-0 bg-gradient-to-br from-primary/60 to-accent/60 rounded-xl sm:rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500 animate-pulse" style="animation-duration: 3s" />
+                <div class="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-xl ring-2 ring-white/20">
+                  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              
+              <div class="flex-1 min-w-0">
+                <p class="text-xs sm:text-sm md:text-base text-primary font-semibold mb-1">Good to see you back</p>
+                <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold truncate">
+                  <span class="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">{{ authStore.user?.full_name || 'User' }}</span>
+                </h1>
+              </div>
+            </div>
+            
+            <!-- Subtitle with Stats -->
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3 ml-[60px] sm:ml-[72px] md:ml-[80px]">
+              <div class="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span class="text-[10px] sm:text-xs font-semibold text-emerald-500">{{ activeAlertsCount }} Active</span>
+              </div>
+              <div class="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 bg-purple-500/10 border border-purple-500/30 rounded-full">
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-purple-500 animate-pulse" />
+                <span class="text-[10px] sm:text-xs font-semibold text-purple-500">{{ notificationsStore.unreadCount }} New</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Add Asset Button -->
+          <button 
+            @click="showAddAssetModal = true"
+            class="group relative w-full sm:w-auto px-4 sm:px-6 py-3 sm:py-3.5 md:px-8 md:py-4 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] text-white font-bold rounded-xl md:rounded-2xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-500 hover:scale-105 active:scale-95 flex items-center justify-center gap-2 sm:gap-3 text-sm md:text-base"
+          >
+            <div class="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary rounded-xl md:rounded-2xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-500" />
+            <div class="relative flex items-center gap-2 sm:gap-3">
+              <div class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:rotate-90 transition-transform duration-500">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+              <div class="text-left">
+                <p class="text-[10px] sm:text-xs font-medium opacity-80">Quick Action</p>
+                <p class="text-sm sm:text-base md:text-lg font-bold -mt-0.5">Add Asset</p>
+              </div>
+            </div>
+          </button>
         </div>
-        <button 
-          @click="showAddAssetModal = true"
-          class="group px-4 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-primary to-accent text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base"
-        >
-          <svg class="w-4 h-4 md:w-5 md:h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          <span class="hidden sm:inline">Add Asset</span>
-          <span class="sm:hidden">Add</span>
-        </button>
       </div>
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6">
       <!-- Total Tracked Assets -->
-      <div class="group relative overflow-hidden bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-xl border border-border/50 rounded-2xl p-4 md:p-6 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500 hover:-translate-y-1">
-        <div class="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-500" />
+      <div class="group relative overflow-hidden bg-gradient-to-br from-blue-500/10 via-card/80 to-blue-600/5 backdrop-blur-xl border-2 border-blue-500/30 rounded-2xl md:rounded-3xl p-5 md:p-6 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-500 hover:-translate-y-2">
+        <!-- Animated Background -->
+        <div class="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-blue-500/20 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-700" />
+        <div class="absolute bottom-0 left-0 w-16 h-16 md:w-24 md:h-24 bg-gradient-to-tr from-blue-400/15 to-transparent rounded-full blur-2xl group-hover:w-32 group-hover:h-32 transition-all duration-700" />
+        
         <div class="relative z-10">
-          <div class="flex items-center justify-between mb-3 md:mb-4">
-            <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
-              <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+          <!-- Icon & Badge -->
+          <div class="flex items-start justify-between mb-4 md:mb-5">
+            <div class="relative group/icon">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl md:rounded-2xl blur-lg group-hover/icon:blur-xl transition-all duration-500 animate-pulse" style="animation-duration: 3s" />
+              <div class="relative w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-xl group-hover/icon:scale-110 group-hover/icon:rotate-6 transition-transform duration-500">
+                <svg class="w-6 h-6 md:w-7 md:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
             </div>
-            <span class="px-2 py-0.5 md:px-3 md:py-1 bg-primary/10 border border-primary/30 text-primary text-[10px] md:text-xs font-bold rounded-full">Total</span>
+            <div class="px-2.5 py-1 md:px-3 md:py-1.5 bg-blue-500/15 border-2 border-blue-500/40 rounded-full">
+              <span class="text-[10px] md:text-xs font-bold text-blue-400 uppercase tracking-wider">Total</span>
+            </div>
           </div>
-          <h3 class="text-muted-foreground text-xs md:text-sm font-semibold mb-1 md:mb-2 uppercase tracking-wider">Tracked Assets</h3>
-          <p class="text-3xl md:text-4xl font-bold font-mono bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{{ assetsStore.trackedAssets.length }}</p>
+          
+          <!-- Content -->
+          <div class="space-y-2 md:space-y-3">
+            <h3 class="text-xs md:text-sm font-bold text-blue-300 uppercase tracking-wider">Tracked Assets</h3>
+            <div class="flex items-baseline gap-2">
+              <p class="text-3xl md:text-4xl lg:text-5xl font-bold font-mono bg-gradient-to-r from-blue-400 via-blue-300 to-blue-400 bg-clip-text text-transparent animate-gradient-x">{{ assetsStore.trackedAssets.length }}</p>
+            </div>
+          </div>
+          
+          <!-- Bottom Accent -->
+          <div class="mt-4 md:mt-5 pt-3 md:pt-4 border-t border-blue-500/20">
+            <div class="flex items-center gap-2 text-[10px] md:text-xs text-blue-300/70">
+              <div class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-blue-400 animate-pulse" />
+              <span>Portfolio size</span>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Active Alerts -->
-      <div class="group relative overflow-hidden bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-xl border border-border/50 rounded-2xl p-4 md:p-6 hover:border-emerald-500/50 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-500 hover:-translate-y-1">
-        <div class="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-500" />
+      <div class="group relative overflow-hidden bg-gradient-to-br from-emerald-500/10 via-card/80 to-emerald-600/5 backdrop-blur-xl border-2 border-emerald-500/30 rounded-2xl md:rounded-3xl p-5 md:p-6 hover:border-emerald-500/50 hover:shadow-2xl hover:shadow-emerald-500/30 transition-all duration-500 hover:-translate-y-2">
+        <!-- Animated Background -->
+        <div class="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-emerald-500/20 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-700" />
+        <div class="absolute bottom-0 left-0 w-16 h-16 md:w-24 md:h-24 bg-gradient-to-tr from-emerald-400/15 to-transparent rounded-full blur-2xl group-hover:w-32 group-hover:h-32 transition-all duration-700" />
+        
         <div class="relative z-10">
-          <div class="flex items-center justify-between mb-3 md:mb-4">
-            <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
-              <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1h6z" />
-              </svg>
+          <!-- Icon & Badge -->
+          <div class="flex items-start justify-between mb-4 md:mb-5">
+            <div class="relative group/icon">
+              <div class="absolute inset-0 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl md:rounded-2xl blur-lg group-hover/icon:blur-xl transition-all duration-500 animate-pulse" style="animation-duration: 3s" />
+              <div class="relative w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-xl group-hover/icon:scale-110 group-hover/icon:rotate-6 transition-transform duration-500">
+                <svg class="w-6 h-6 md:w-7 md:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1h6z" />
+                </svg>
+              </div>
             </div>
-            <span class="px-2 py-0.5 md:px-3 md:py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-[10px] md:text-xs font-bold rounded-full">Live</span>
+            <div class="flex items-center gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 bg-emerald-500/15 border-2 border-emerald-500/40 rounded-full">
+              <div class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span class="text-[10px] md:text-xs font-bold text-emerald-400 uppercase tracking-wider">Live</span>
+            </div>
           </div>
-          <h3 class="text-muted-foreground text-xs md:text-sm font-semibold mb-1 md:mb-2 uppercase tracking-wider">Active Alerts</h3>
-          <p class="text-3xl md:text-4xl font-bold font-mono text-emerald-500">{{ activeAlertsCount }}</p>
+          
+          <!-- Content -->
+          <div class="space-y-2 md:space-y-3">
+            <h3 class="text-xs md:text-sm font-bold text-emerald-300 uppercase tracking-wider">Active Alerts</h3>
+            <div class="flex items-baseline gap-2">
+              <p class="text-3xl md:text-4xl lg:text-5xl font-bold font-mono bg-gradient-to-r from-emerald-400 via-emerald-300 to-emerald-400 bg-clip-text text-transparent animate-gradient-x">{{ activeAlertsCount }}</p>
+            </div>
+          </div>
+          
+          <!-- Bottom Accent -->
+          <div class="mt-4 md:mt-5 pt-3 md:pt-4 border-t border-emerald-500/20">
+            <div class="flex items-center gap-2 text-[10px] md:text-xs text-emerald-300/70">
+              <div class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Monitoring prices</span>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Unread Notifications -->
-      <div class="group relative overflow-hidden bg-gradient-to-br from-card/90 to-card/60 backdrop-blur-xl border border-border/50 rounded-2xl p-4 md:p-6 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 hover:-translate-y-1">
-        <div class="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-purple-500/10 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-500" />
+      <div class="group relative overflow-hidden bg-gradient-to-br from-purple-500/10 via-card/80 to-purple-600/5 backdrop-blur-xl border-2 border-purple-500/30 rounded-2xl md:rounded-3xl p-5 md:p-6 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/30 transition-all duration-500 hover:-translate-y-2 sm:col-span-2 lg:col-span-1">
+        <!-- Animated Background -->
+        <div class="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-purple-500/20 to-transparent rounded-full blur-2xl group-hover:w-40 group-hover:h-40 transition-all duration-700" />
+        <div class="absolute bottom-0 left-0 w-16 h-16 md:w-24 md:h-24 bg-gradient-to-tr from-purple-400/15 to-transparent rounded-full blur-2xl group-hover:w-32 group-hover:h-32 transition-all duration-700" />
+        
         <div class="relative z-10">
-          <div class="flex items-center justify-between mb-3 md:mb-4">
-            <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
-              <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-              </svg>
+          <!-- Icon & Badge -->
+          <div class="flex items-start justify-between mb-4 md:mb-5">
+            <div class="relative group/icon">
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl md:rounded-2xl blur-lg group-hover/icon:blur-xl transition-all duration-500 animate-pulse" style="animation-duration: 3s" />
+              <div class="relative w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-xl group-hover/icon:scale-110 group-hover/icon:rotate-6 transition-transform duration-500">
+                <svg class="w-6 h-6 md:w-7 md:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1h6z" />
+                </svg>
+              </div>
             </div>
-            <span v-if="notificationsStore.unreadCount > 0" class="px-2 py-0.5 md:px-3 md:py-1 bg-destructive/10 border border-destructive/30 text-destructive text-[10px] md:text-xs font-bold rounded-full">{{ notificationsStore.unreadCount }}</span>
+            <div v-if="notificationsStore.unreadCount > 0" class="px-2.5 py-1 md:px-3 md:py-1.5 bg-destructive/15 border-2 border-destructive/40 rounded-full animate-pulse">
+              <span class="text-[10px] md:text-xs font-bold text-destructive">{{ notificationsStore.unreadCount > 99 ? '99+' : notificationsStore.unreadCount }}</span>
+            </div>
           </div>
-          <h3 class="text-muted-foreground text-xs md:text-sm font-semibold mb-1 md:mb-2 uppercase tracking-wider">Unread Notifications</h3>
-          <p class="text-3xl md:text-4xl font-bold font-mono text-purple-500">{{ notificationsStore.unreadCount }}</p>
+          
+          <!-- Content -->
+          <div class="space-y-2 md:space-y-3">
+            <h3 class="text-xs md:text-sm font-bold text-purple-300 uppercase tracking-wider">Unread Notifications</h3>
+            <div class="flex items-baseline gap-2">
+              <p class="text-3xl md:text-4xl lg:text-5xl font-bold font-mono bg-gradient-to-r from-purple-400 via-purple-300 to-purple-400 bg-clip-text text-transparent animate-gradient-x">{{ notificationsStore.unreadCount }}</p>
+            </div>
+          </div>
+          
+          <!-- Bottom Accent -->
+          <div class="mt-4 md:mt-5 pt-3 md:pt-4 border-t border-purple-500/20">
+            <div class="flex items-center gap-2 text-[10px] md:text-xs text-purple-300/70">
+              <div class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-purple-400 animate-pulse" />
+              <span>Awaiting attention</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -174,7 +283,63 @@
               </RouterLink>
             </div>
           </div>
-          <div class="p-4 md:p-6">
+          
+          <!-- Loading State -->
+          <div v-if="alertsStore.isLoading" class="p-4 md:p-6">
+            <div class="space-y-3">
+              <div v-for="i in 3" :key="i" class="animate-pulse flex items-center gap-3 p-3 rounded-xl bg-secondary/30">
+                <div class="w-10 h-10 rounded-lg bg-secondary" />
+                <div class="flex-1">
+                  <div class="h-4 bg-secondary rounded w-3/4 mb-2" />
+                  <div class="h-3 bg-secondary rounded w-1/2" />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Alerts List -->
+          <div v-else-if="alertsStore.alerts.length > 0" class="p-4 md:p-6 space-y-3 max-h-80 overflow-y-auto">
+            <div
+              v-for="alert in alertsStore.alerts.slice(0, 5)"
+              :key="alert.id"
+              class="group p-3 rounded-xl border-2 border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
+            >
+              <div class="flex items-start gap-3">
+                <!-- Alert Icon -->
+                <div :class="[
+                  'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0',
+                  alert.is_active 
+                    ? 'bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/30' 
+                    : 'bg-gradient-to-br from-secondary to-secondary/80'
+                ]">
+                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1h6z" />
+                  </svg>
+                </div>
+                
+                <!-- Alert Info -->
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <h3 class="font-bold text-sm truncate">{{ alert.asset_name }}</h3>
+                    <span :class="[
+                      'px-2 py-0.5 text-[10px] font-bold rounded-full',
+                      alert.is_active 
+                        ? 'bg-emerald-500/20 text-emerald-500 border border-emerald-500/30' 
+                        : 'bg-secondary text-muted-foreground border border-border/50'
+                    ]">
+                      {{ alert.is_active ? 'Active' : 'Inactive' }}
+                    </span>
+                  </div>
+                  <p class="text-xs text-muted-foreground truncate">
+                    {{ alert.condition_type }} at ${{ formatPrice(alert.target_price) }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Empty State -->
+          <div v-else class="p-4 md:p-6">
             <EmptyState
               title="No alerts yet"
               description="Create price alerts to get notified"
@@ -200,7 +365,65 @@
               </RouterLink>
             </div>
           </div>
-          <div class="p-4 md:p-6">
+          
+          <!-- Loading State -->
+          <div v-if="notificationsStore.isLoading" class="p-4 md:p-6">
+            <div class="space-y-3">
+              <div v-for="i in 3" :key="i" class="animate-pulse flex items-center gap-3 p-3 rounded-xl bg-secondary/30">
+                <div class="w-10 h-10 rounded-lg bg-secondary" />
+                <div class="flex-1">
+                  <div class="h-4 bg-secondary rounded w-3/4 mb-2" />
+                  <div class="h-3 bg-secondary rounded w-1/2" />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Notifications List -->
+          <div v-else-if="notificationsStore.notifications.length > 0" class="p-4 md:p-6 space-y-3 max-h-80 overflow-y-auto">
+            <div
+              v-for="notification in notificationsStore.notifications.slice(0, 5)"
+              :key="notification.id"
+              @click="$router.push(`/notifications/${notification.id}`)"
+              class="group p-3 rounded-xl border-2 border-border/50 hover:border-purple-500/50 hover:bg-purple-500/5 transition-all duration-300 cursor-pointer"
+            >
+              <div class="flex items-start gap-3">
+                <!-- Notification Icon -->
+                <div :class="[
+                  'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0',
+                  notification.status === 'FAILED'
+                    ? 'bg-gradient-to-br from-destructive to-destructive/80 shadow-lg shadow-destructive/30'
+                    : notification.status === 'SENT'
+                    ? 'bg-gradient-to-br from-primary to-accent shadow-lg shadow-primary/30'
+                    : 'bg-gradient-to-br from-secondary to-secondary/80'
+                ]">
+                  <svg v-if="notification.status === 'FAILED'" class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <svg v-else-if="notification.status === 'SENT'" class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <svg v-else class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                
+                <!-- Notification Info -->
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <h3 class="font-bold text-sm truncate">{{ notification.message || 'Notification' }}</h3>
+                    <span v-if="!notification.is_read" class="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
+                  </div>
+                  <p class="text-xs text-muted-foreground truncate">
+                    {{ formatDate(notification.created_at) }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Empty State -->
+          <div v-else class="p-4 md:p-6">
             <EmptyState
               title="No notifications"
               description="Your notifications will appear here"
@@ -313,23 +536,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useAssetsStore } from '@/stores/assets'
+import { useAlertsStore } from '@/stores/alerts'
 import { useNotificationsStore } from '@/stores/notifications'
 import { useToast } from '@/composables/useToast'
 import EmptyState from '@/components/ui/empty-state.vue'
 
 const authStore = useAuthStore()
 const assetsStore = useAssetsStore()
+const alertsStore = useAlertsStore()
 const notificationsStore = useNotificationsStore()
 const { toast } = useToast()
 
-const activeAlertsCount = ref(0)
 const showAddAssetModal = ref(false)
 const searchQuery = ref('')
 let searchTimeout: NodeJS.Timeout | null = null
+
+// Computed property for active alerts count
+const activeAlertsCount = computed(() => alertsStore.activeAlerts.length)
 
 function formatPrice(price: number) {
   if (price >= 1) {
@@ -339,6 +566,22 @@ function formatPrice(price: number) {
   } else {
     return price.toFixed(6)
   }
+}
+
+function formatDate(dateString: string) {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMs / 3600000)
+  const diffDays = Math.floor(diffMs / 86400000)
+  
+  if (diffMins < 1) return 'Just now'
+  if (diffMins < 60) return `${diffMins}m ago`
+  if (diffHours < 24) return `${diffHours}h ago`
+  if (diffDays < 7) return `${diffDays}d ago`
+  
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
 function handleSearch() {
@@ -386,7 +629,11 @@ onMounted(async () => {
   // Fetch tracked assets
   await assetsStore.fetchTrackedAssets()
   
-  // Fetch unread notifications count
+  // Fetch alerts to get active count
+  await alertsStore.fetchAlerts()
+  
+  // Fetch notifications list and unread count
+  await notificationsStore.fetchNotifications()
   await notificationsStore.fetchUnreadCount()
 })
 </script>

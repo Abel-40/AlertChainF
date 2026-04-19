@@ -22,6 +22,7 @@ import AssetDetailView from '@/views/AssetDetailView.vue'
 import AssetMoreDetailsView from '@/views/AssetMoreDetailsView.vue'
 import AlertsView from '@/views/AlertsView.vue'
 import NotificationsView from '@/views/NotificationsView.vue'
+import NotificationDetailView from '@/views/NotificationDetailView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 
@@ -115,6 +116,12 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true, title: 'Notifications' },
       },
       {
+        path: 'notifications/:id',
+        name: 'NotificationDetail',
+        component: NotificationDetailView,
+        meta: { requiresAuth: true, title: 'Notification Details' },
+      },
+      {
         path: 'profile',
         name: 'Profile',
         component: ProfileView,
@@ -141,10 +148,24 @@ router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   const requiresAuth = to.meta.requiresAuth
 
-  // Check if user is authenticated
-  if (requiresAuth && !authStore.isAuthenticated) {
-    next('/login')
-    return
+  // If route requires auth, verify the user's session
+  if (requiresAuth) {
+    // If there's a token but no user data, try to fetch user info
+    if (authStore.token && !authStore.user) {
+      const success = await authStore.fetchMe()
+      if (!success) {
+        // Token is invalid or expired, clear auth and redirect to login
+        authStore.logout()
+        next('/login')
+        return
+      }
+    }
+    
+    // If not authenticated (no token), redirect to login
+    if (!authStore.isAuthenticated) {
+      next('/login')
+      return
+    }
   }
 
   // Redirect authenticated users away from auth pages (but allow landing page)

@@ -45,6 +45,13 @@ api.interceptors.response.use(
         description: 'You do not have permission to perform this action.',
         variant: 'destructive',
       })
+    } else if (error.response?.status === 429) {
+      // Rate limit exceeded
+      toast({
+        title: 'Too Many Requests',
+        description: 'Please wait a moment and try again.',
+        variant: 'destructive',
+      })
     } else if (error.response?.status === 500) {
       toast({
         title: 'Server Error',

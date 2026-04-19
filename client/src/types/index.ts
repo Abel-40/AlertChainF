@@ -13,6 +13,50 @@ export interface UserOut {
   created_at: string
 }
 
+export interface UserProfile {
+  id: string
+  user_id: string
+  bio: string | null
+  avatar_url: string | null
+  location: string | null
+  website: string | null
+  preferred_currency: string
+  risk_tolerance: 'LOW' | 'MEDIUM' | 'HIGH' | 'VERY_HIGH'
+  trading_experience: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'EXPERT'
+  email_notifications: boolean
+  price_alert_notifications: boolean
+  market_update_notifications: boolean
+  newsletter_subscription: boolean
+  theme: 'LIGHT' | 'DARK' | 'SYSTEM'
+  default_chart_timeframe: string
+  show_portfolio_on_dashboard: boolean
+  default_alert_condition: 'ABOVE' | 'BELOW'
+  alert_cooldown_minutes: number
+  max_active_alerts: number
+  created_at: string
+  updated_at: string
+}
+
+export interface UserProfileUpdate {
+  bio?: string | null
+  avatar_url?: string | null
+  location?: string | null
+  website?: string | null
+  preferred_currency?: string
+  risk_tolerance?: 'LOW' | 'MEDIUM' | 'HIGH' | 'VERY_HIGH'
+  trading_experience?: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'EXPERT'
+  email_notifications?: boolean
+  price_alert_notifications?: boolean
+  market_update_notifications?: boolean
+  newsletter_subscription?: boolean
+  theme?: 'LIGHT' | 'DARK' | 'SYSTEM'
+  default_chart_timeframe?: string
+  show_portfolio_on_dashboard?: boolean
+  default_alert_condition?: 'ABOVE' | 'BELOW'
+  alert_cooldown_minutes?: number
+  max_active_alerts?: number
+}
+
 export interface LoginRequest {
   username: string
   password: string

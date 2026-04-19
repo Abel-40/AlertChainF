@@ -224,8 +224,10 @@
             </svg>
             <span 
               v-if="notificationsStore.unreadCount > 0" 
-              class="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full animate-pulse"
-            />
+              class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-lg border-2 border-card"
+            >
+              {{ notificationsStore.unreadCount > 99 ? '99+' : notificationsStore.unreadCount }}
+            </span>
           </RouterLink>
 
           <!-- Notifications - Desktop Modal -->
@@ -239,8 +241,10 @@
               </svg>
               <span 
                 v-if="notificationsStore.unreadCount > 0" 
-                class="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full animate-pulse"
-              />
+                class="absolute -top-0.5 -right-0.5 min-w-[20px] h-[20px] px-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[11px] font-bold rounded-full flex items-center justify-center shadow-lg border-2 border-card"
+              >
+                {{ notificationsStore.unreadCount > 99 ? '99+' : notificationsStore.unreadCount }}
+              </span>
             </button>
 
             <!-- Notification Dropdown Panel -->
@@ -510,6 +514,8 @@ async function handleNotificationClick(notif: any) {
   if (!notif.is_read) {
     await notificationsStore.markAsRead(notif.id)
   }
+  isNotificationPanelOpen.value = false
+  router.push(`/notifications/${notif.id}`)
 }
 
 async function markAllAsRead() {
@@ -541,6 +547,17 @@ function handleClickOutside(event: MouseEvent) {
 }
 
 onMounted(async () => {
+  // Verify user session is still valid
+  if (authStore.token && !authStore.user) {
+    const success = await authStore.fetchMe()
+    if (!success) {
+      // Session expired or invalid, redirect to login
+      authStore.logout()
+      router.push('/login')
+      return
+    }
+  }
+  
   // Fetch unread notifications count
   if (authStore.isAuthenticated) {
     await notificationsStore.fetchUnreadCount()

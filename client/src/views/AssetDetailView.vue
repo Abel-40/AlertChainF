@@ -1,64 +1,42 @@
 <template>
-  <div v-if="asset" class="space-y-8 animate-fade-in">
-    <!-- Back Button -->
-    <button @click="$router.back()" class="group flex items-center gap-3 text-muted-foreground hover:text-primary transition-all duration-300 px-2 py-2">
-      <div class="w-10 h-10 rounded-xl bg-secondary/50 border border-border/50 flex items-center justify-center group-hover:bg-primary/10 group-hover:border-primary/30 transition-all duration-300">
-        <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-      </div>
-      <span class="font-semibold">Back</span>
-    </button>
-
+  <div v-if="asset" class="space-y-4 sm:space-y-6 lg:space-y-8 animate-fade-in">
     <!-- Asset Hero Section -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-card/95 via-card/80 to-card/60 backdrop-blur-2xl border border-border/50 rounded-3xl shadow-2xl shadow-primary/5">
+    <div class="relative overflow-hidden bg-gradient-to-br from-card/95 via-card/80 to-card/60 backdrop-blur-2xl border border-border/50 rounded-2xl sm:rounded-3xl shadow-2xl shadow-primary/5">
       <!-- Animated Background Effects -->
-      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-primary/30 via-accent/20 to-transparent rounded-full blur-3xl -translate-y-1/3 translate-x-1/3 animate-pulse" style="animation-duration: 4s" />
-      <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-accent/20 via-primary/15 to-transparent rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 animate-pulse" style="animation-duration: 5s" />
-      <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 animate-pulse" style="animation-duration: 6s" />
+      <div class="absolute top-0 right-0 w-[200px] h-[200px] sm:w-[400px] sm:h-[400px] lg:w-[600px] lg:h-[600px] bg-gradient-to-br from-primary/30 via-accent/20 to-transparent rounded-full blur-2xl sm:blur-3xl -translate-y-1/3 translate-x-1/3 animate-pulse" style="animation-duration: 4s" />
+      <div class="absolute bottom-0 left-0 w-[150px] h-[150px] sm:w-[300px] sm:h-[300px] lg:w-[500px] lg:h-[500px] bg-gradient-to-tr from-accent/20 via-primary/15 to-transparent rounded-full blur-2xl sm:blur-3xl translate-y-1/3 -translate-x-1/3 animate-pulse" style="animation-duration: 5s" />
       
-      <div class="relative z-10 p-8">
-        <!-- Top Section: Asset Info & Actions -->
-        <div class="flex items-start justify-between mb-8">
-          <div class="flex items-center gap-6">
-            <!-- Asset Icon with Glow -->
-            <div class="relative group">
-              <div class="absolute inset-0 bg-gradient-to-br from-primary/60 to-accent/60 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500 animate-pulse" style="animation-duration: 3s" />
-              <div class="relative w-20 h-20 rounded-3xl overflow-hidden ring-4 ring-border/50 shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                <img :src="asset.image" :alt="asset.name" class="w-full h-full object-cover" />
-              </div>
+      <div class="relative z-10">
+        <!-- Top Bar: Back Button & Actions -->
+        <div class="flex items-center justify-between p-3 sm:p-4 lg:p-6 border-b border-border/30">
+          <button @click="$router.back()" class="group flex items-center gap-2 text-muted-foreground hover:text-primary transition-all duration-300">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-secondary/50 border border-border/50 flex items-center justify-center group-hover:bg-primary/10 group-hover:border-primary/30 transition-all duration-300">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
             </div>
-            
-            <!-- Asset Name & Tags -->
-            <div>
-              <h1 class="text-5xl font-bold mb-3 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">{{ asset.name }}</h1>
-              <div class="flex items-center gap-3">
-                <span class="px-4 py-1.5 bg-primary/15 border-2 border-primary/40 text-primary text-sm font-bold rounded-full uppercase tracking-wider shadow-lg shadow-primary/20">{{ asset.symbol }}</span>
-                <span class="text-sm text-muted-foreground font-mono bg-secondary/50 px-3 py-1.5 rounded-lg border border-border/30">{{ asset.coingecko_id }}</span>
-              </div>
-            </div>
-          </div>
+            <span class="font-semibold text-sm sm:text-base hidden sm:inline">Back</span>
+          </button>
           
           <!-- Action Buttons -->
-          <div class="flex items-center gap-3">
-            <!-- Remove Asset Button -->
+          <div class="flex items-center gap-2 sm:gap-3">
             <button
               @click="handleRemoveAsset"
-              class="group/remove p-3 bg-destructive/10 border-2 border-destructive/30 rounded-xl hover:bg-destructive hover:text-white hover:border-destructive hover:shadow-xl hover:shadow-destructive/30 transition-all duration-300"
+              class="group/remove p-2 sm:p-2.5 bg-destructive/10 border-2 border-destructive/30 rounded-lg hover:bg-destructive hover:text-white hover:border-destructive hover:shadow-lg hover:shadow-destructive/30 transition-all duration-300"
               title="Remove from watchlist"
             >
-              <svg class="w-5 h-5 group-hover/remove:scale-110 group-hover/remove:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5 group-hover/remove:scale-110 group-hover/remove:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
             </button>
-            <!-- More Details Button -->
             <button
               @click="$router.push(`/assets/${asset.coingecko_id}/more`)"
-              class="group/btn px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 font-semibold text-sm hover:scale-105 active:scale-95"
+              class="px-3 sm:px-4 py-2 sm:py-2.5 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 font-semibold text-xs sm:text-sm hover:scale-105 active:scale-95"
             >
-              <span class="flex items-center gap-2">
-                More Details
-                <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span class="flex items-center gap-1.5 sm:gap-2">
+                <span class="hidden sm:inline">More Details</span>
+                <span class="sm:hidden">Details</span>
+                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </span>
@@ -66,74 +44,89 @@
           </div>
         </div>
         
-        <!-- Price Display -->
-        <div class="mb-8">
-          <div class="flex items-end gap-4">
-            <div class="relative">
-              <div class="absolute inset-0 bg-gradient-to-r from-primary/30 to-accent/30 blur-2xl" />
+        <!-- Main Content -->
+        <div class="p-4 sm:p-6 lg:p-8">
+          <!-- Asset Info & Price -->
+          <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <!-- Asset Icon -->
+            <div class="relative group flex-shrink-0">
+              <div class="absolute inset-0 bg-gradient-to-br from-primary/60 to-accent/60 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 animate-pulse" style="animation-duration: 3s" />
+              <div class="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden ring-2 sm:ring-4 ring-border/50 shadow-xl group-hover:scale-110 transition-transform duration-300">
+                <img :src="asset.image" :alt="asset.name" class="w-full h-full object-cover" />
+              </div>
+            </div>
+            
+            <!-- Asset Details -->
+            <div class="flex-1">
+              <div class="flex items-start justify-between gap-3 mb-3">
+                <div class="flex-1 min-w-0">
+                  <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x truncate">{{ asset.name }}</h1>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="px-3 py-1 bg-primary/15 border-2 border-primary/40 text-primary text-xs sm:text-sm font-bold rounded-full uppercase tracking-wider shadow-lg shadow-primary/20">{{ asset.symbol }}</span>
+                    <span class="text-xs text-muted-foreground font-mono bg-secondary/50 px-2 py-1 rounded-lg border border-border/30 truncate max-w-[120px] sm:max-w-none">{{ asset.coingecko_id }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Price Display -->
+              <div class="flex items-baseline gap-3">
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-primary/30 to-accent/30 blur-xl" />
+                  <p class="relative text-3xl sm:text-4xl lg:text-5xl font-bold font-mono bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">${{ formatPrice(asset.current_price) }}</p>
+                </div>
+              </div>
+              <p class="text-xs sm:text-sm text-muted-foreground mt-2 font-medium">Current Market Price</p>
+            </div>
+          </div>
+          
+          <!-- Stats Cards Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+            <!-- Asset ID Card -->
+            <div class="group relative overflow-hidden bg-gradient-to-br from-blue-500/10 to-blue-600/5 backdrop-blur-sm border-2 border-blue-500/30 rounded-xl p-4 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
+              <div class="absolute top-0 right-0 w-20 h-20 bg-blue-500/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:w-24 group-hover:h-24 transition-all duration-300" />
               <div class="relative">
-                <p class="text-6xl font-bold font-mono bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x">${{ formatPrice(asset.current_price) }}</p>
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                    </svg>
+                  </div>
+                  <p class="text-[10px] sm:text-xs text-blue-400 font-bold uppercase tracking-wider">Asset ID</p>
+                </div>
+                <p class="text-sm sm:text-base font-bold font-mono text-blue-300 truncate">{{ asset.id?.slice(0, 8) || 'N/A' }}</p>
               </div>
             </div>
-            <div class="pb-3">
-              <p class="text-base text-muted-foreground font-semibold">Current Market Price</p>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Stats Display - Inline with Icons -->
-        <div class="flex flex-wrap items-center gap-8 pt-6 border-t-2 border-border/30">
-          <!-- Asset ID -->
-          <div class="flex items-center gap-4 group">
-            <div class="relative">
-              <div class="absolute inset-0 bg-blue-500/30 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300" />
-              <div class="relative w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-                </svg>
+
+            <!-- Active Alerts Card -->
+            <div class="group relative overflow-hidden bg-gradient-to-br from-purple-500/10 to-purple-600/5 backdrop-blur-sm border-2 border-purple-500/30 rounded-xl p-4 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300">
+              <div class="absolute top-0 right-0 w-20 h-20 bg-purple-500/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:w-24 group-hover:h-24 transition-all duration-300" />
+              <div class="relative">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-md">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1h6z" />
+                    </svg>
+                  </div>
+                  <p class="text-[10px] sm:text-xs text-purple-400 font-bold uppercase tracking-wider">Active Alerts</p>
+                </div>
+                <p class="text-2xl sm:text-3xl font-bold font-mono text-purple-300">{{ activeAlertsCount }}</p>
               </div>
             </div>
-            <div>
-              <p class="text-xs text-blue-400 font-bold uppercase tracking-wider mb-1">Asset ID</p>
-              <p class="text-lg font-bold font-mono text-blue-300">{{ asset.id?.slice(0, 8) || 'N/A' }}</p>
-            </div>
-          </div>
 
-          <!-- Divider -->
-          <div class="hidden md:block w-px h-16 bg-gradient-to-b from-transparent via-border/50 to-transparent" />
-
-          <!-- Active Alerts -->
-          <div class="flex items-center gap-4 group">
-            <div class="relative">
-              <div class="absolute inset-0 bg-purple-500/30 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300" />
-              <div class="relative w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1h6z" />
-                </svg>
+            <!-- Alert Status Card -->
+            <div class="group relative overflow-hidden bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 backdrop-blur-sm border-2 border-emerald-500/30 rounded-xl p-4 hover:border-emerald-500/50 hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300">
+              <div class="absolute top-0 right-0 w-20 h-20 bg-emerald-500/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:w-24 group-hover:h-24 transition-all duration-300" />
+              <div class="relative">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-md">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <p class="text-[10px] sm:text-xs text-emerald-400 font-bold uppercase tracking-wider">Alert Status</p>
+                </div>
+                <p class="text-lg sm:text-xl font-bold text-emerald-300">Ready</p>
               </div>
-            </div>
-            <div>
-              <p class="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">Active Alerts</p>
-              <p class="text-2xl font-bold font-mono text-purple-300">{{ activeAlertsCount }}</p>
-            </div>
-          </div>
-
-          <!-- Divider -->
-          <div class="hidden md:block w-px h-16 bg-gradient-to-b from-transparent via-border/50 to-transparent" />
-
-          <!-- Alert Status -->
-          <div class="flex items-center gap-4 group">
-            <div class="relative">
-              <div class="absolute inset-0 bg-emerald-500/30 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300" />
-              <div class="relative w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-            </div>
-            <div>
-              <p class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Alert Status</p>
-              <p class="text-xl font-bold text-emerald-300">Ready</p>
             </div>
           </div>
         </div>
@@ -141,31 +134,31 @@
     </div>
 
     <!-- Price History Chart -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border border-border/50 rounded-3xl shadow-2xl">
+    <div class="relative overflow-hidden bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border border-border/50 rounded-2xl sm:rounded-3xl shadow-2xl">
       <!-- Background Glow Effects -->
-      <div class="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-      <div class="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-accent/10 to-transparent rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+      <div class="absolute top-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl sm:blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div class="absolute bottom-0 right-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tl from-accent/10 to-transparent rounded-full blur-2xl sm:blur-3xl translate-x-1/2 translate-y-1/2" />
       
-      <div class="relative z-10 p-8">
-        <div class="flex items-center justify-between mb-6">
+      <div class="relative z-10 p-4 sm:p-6 lg:p-8">
+        <div class="flex items-center justify-between mb-4 sm:mb-6">
           <div>
-            <h2 class="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Price History</h2>
-            <p class="text-sm text-muted-foreground mt-1 font-medium">{{ chartTimeRangeLabel }}</p>
+            <h2 class="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Price History</h2>
+            <p class="text-xs sm:text-sm text-muted-foreground mt-1 font-medium">{{ chartTimeRangeLabel }}</p>
           </div>
-          <span class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 rounded-xl text-sm font-semibold">
-            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-            Live
+          <span class="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold">
+            <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-emerald-500 rounded-full animate-pulse" />
+            <span class="hidden sm:inline">Live</span>
           </span>
         </div>
         
         <!-- Time Range Selector -->
-        <div class="flex flex-wrap gap-2 mb-6 p-2 bg-secondary/30 rounded-2xl backdrop-blur-sm">
+        <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6 p-1.5 sm:p-2 bg-secondary/30 rounded-xl sm:rounded-2xl backdrop-blur-sm">
           <button
             v-for="range in timeRanges"
             :key="range.value"
             @click="selectTimeRange(range)"
             :class="[
-              'flex-1 min-w-[60px] px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300',
+              'flex-1 min-w-[50px] sm:min-w-[60px] px-2 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm transition-all duration-300',
               selectedTimeRange.value === range.value
                 ? 'bg-gradient-to-r from-primary to-accent text-white shadow-lg shadow-primary/30 scale-105'
                 : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
@@ -177,34 +170,34 @@
         
         <!-- Chart Component -->
         <div class="relative">
-          <div v-if="!isChartLoading && chartData.length > 0" class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-card/50 to-card/30 border border-border/30 p-6" style="height: 540px;">
+          <div v-if="!isChartLoading && chartData.length > 0" class="relative rounded-xl sm:rounded-2xl overflow-hidden bg-gradient-to-br from-card/50 to-card/30 border border-border/30 p-3 sm:p-4 lg:p-6" style="height: 300px;">
             <div class="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-accent/5 pointer-events-none" />
             <PriceChart :snapshots="chartData" :time-range="selectedTimeRange" />
           </div>
-          <div v-else-if="isChartLoading" class="rounded-2xl flex items-center justify-center" style="height: 540px;">
+          <div v-else-if="isChartLoading" class="rounded-xl sm:rounded-2xl flex items-center justify-center" style="height: 300px;">
             <div class="text-center">
-              <div class="relative inline-block mb-6">
-                <div class="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-full blur-2xl animate-pulse" />
-                <div class="relative animate-spin rounded-full h-20 w-20 border-4 border-primary/30 border-t-primary" />
+              <div class="relative inline-block mb-4 sm:mb-6">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-full blur-xl sm:blur-2xl animate-pulse" />
+                <div class="relative animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 sm:w-16 border-3 sm:border-4 border-primary/30 border-t-primary" />
               </div>
-              <p class="text-lg text-muted-foreground font-semibold mb-2">{{ chartLoadingMessage }}</p>
-              <p class="text-sm text-muted-foreground/70">Please wait...</p>
-              <div class="mt-6 flex justify-center gap-1">
-                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0s" />
-                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.1s" />
-                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.2s" />
+              <p class="text-sm sm:text-lg text-muted-foreground font-semibold mb-1 sm:mb-2">{{ chartLoadingMessage }}</p>
+              <p class="text-xs sm:text-sm text-muted-foreground/70">Please wait...</p>
+              <div class="mt-4 sm:mt-6 flex justify-center gap-1">
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0s" />
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.1s" />
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.2s" />
               </div>
             </div>
           </div>
-          <div v-else class="rounded-2xl flex items-center justify-center" style="height: 540px;">
+          <div v-else class="rounded-xl sm:rounded-2xl flex items-center justify-center" style="height: 300px;">
             <div class="text-center">
-              <div class="w-24 h-24 mx-auto mb-6 rounded-2xl bg-secondary/50 flex items-center justify-center">
-                <svg class="w-12 h-12 text-muted-foreground/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-16 h-16 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 rounded-xl sm:rounded-2xl bg-secondary/50 flex items-center justify-center">
+                <svg class="w-8 h-8 sm:w-12 sm:h-12 text-muted-foreground/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <p class="text-lg text-muted-foreground font-semibold mb-2">No price data available</p>
-              <p class="text-sm text-muted-foreground/70">Try selecting a different time range</p>
+              <p class="text-sm sm:text-lg text-muted-foreground font-semibold mb-1 sm:mb-2">No price data available</p>
+              <p class="text-xs sm:text-sm text-muted-foreground/70">Try selecting a different time range</p>
             </div>
           </div>
         </div>
@@ -212,51 +205,51 @@
     </div>
 
     <!-- Create Alert Section -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border border-border/50 rounded-3xl shadow-2xl">
+    <div class="relative overflow-hidden bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border border-border/50 rounded-2xl sm:rounded-3xl shadow-2xl">
       <!-- Background Glow -->
-      <div class="absolute top-1/2 left-0 w-96 h-96 bg-gradient-to-r from-primary/10 to-transparent rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
+      <div class="absolute top-1/2 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-r from-primary/10 to-transparent rounded-full blur-2xl sm:blur-3xl -translate-y-1/2 -translate-x-1/2" />
       
-      <div class="relative z-10 p-10">
-        <div class="flex items-center gap-4 mb-8">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-xl shadow-primary/30">
-            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="relative z-10 p-4 sm:p-6 lg:p-10">
+        <div class="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-xl shadow-primary/30">
+            <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1h6z" />
             </svg>
           </div>
           <div>
-            <h2 class="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Create Price Alert</h2>
-            <p class="text-sm text-muted-foreground mt-1 font-medium">Get notified when price reaches your target</p>
+            <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Create Price Alert</h2>
+            <p class="text-xs sm:text-sm text-muted-foreground mt-1 font-medium">Get notified when price reaches your target</p>
           </div>
         </div>
         
-        <form @submit.prevent="handleCreateAlert" class="space-y-8">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-3">
-              <label class="block text-sm font-bold text-foreground uppercase tracking-wider">Target Price ($)</label>
+        <form @submit.prevent="handleCreateAlert" class="space-y-6 sm:space-y-8">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div class="space-y-2 sm:space-y-3">
+              <label class="block text-xs sm:text-sm font-bold text-foreground uppercase tracking-wider">Target Price ($)</label>
               <input
                 v-model="alertForm.targetPrice"
                 type="number"
                 step="any"
-                class="w-full px-6 py-5 bg-secondary/50 border-2 border-border/50 rounded-xl text-lg font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:border-primary/30"
+                class="w-full px-4 sm:px-6 py-3 sm:py-5 bg-secondary/50 border-2 border-border/50 rounded-lg sm:rounded-xl text-base sm:text-lg font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:border-primary/30"
                 placeholder="0.00"
                 required
               />
             </div>
-            <div class="space-y-3">
-              <label class="block text-sm font-bold text-foreground uppercase tracking-wider">Condition</label>
+            <div class="space-y-2 sm:space-y-3">
+              <label class="block text-xs sm:text-sm font-bold text-foreground uppercase tracking-wider">Condition</label>
               <select
                 v-model="alertForm.conditionType"
-                class="w-full px-6 py-5 bg-secondary/50 border-2 border-border/50 rounded-xl text-lg font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:border-primary/30 cursor-pointer"
+                class="w-full px-4 sm:px-6 py-3 sm:py-5 bg-secondary/50 border-2 border-border/50 rounded-lg sm:rounded-xl text-base sm:text-lg font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:border-primary/30 cursor-pointer"
               >
                 <option value="ABOVE">📈 Price goes ABOVE</option>
                 <option value="BELOW">📉 Price goes BELOW</option>
               </select>
             </div>
           </div>
-          <button type="submit" class="group/btn relative w-full py-5 bg-gradient-to-r from-primary to-accent text-white font-bold text-lg rounded-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] overflow-hidden">
+          <button type="submit" class="group/btn relative w-full py-3 sm:py-5 bg-gradient-to-r from-primary to-accent text-white font-bold text-base sm:text-lg rounded-lg sm:rounded-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-r from-accent to-primary opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
-            <span class="relative flex items-center justify-center gap-3">
-              <svg class="w-6 h-6 group-hover/btn:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span class="relative flex items-center justify-center gap-2 sm:gap-3">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6 group-hover/btn:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
               </svg>
               Create Alert
@@ -267,16 +260,16 @@
     </div>
 
     <!-- Active Alerts for this Asset -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border border-border/50 rounded-3xl shadow-2xl">
+    <div class="relative overflow-hidden bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border border-border/50 rounded-2xl sm:rounded-3xl shadow-2xl">
       <!-- Background Glow -->
-      <div class="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-accent/10 to-transparent rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
+      <div class="absolute bottom-0 right-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tl from-accent/10 to-transparent rounded-full blur-2xl sm:blur-3xl translate-x-1/3 translate-y-1/3" />
       
       <div class="relative z-10">
-        <div class="p-10 border-b border-border/50">
-          <h2 class="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Active Alerts for {{ asset.name }}</h2>
-          <p class="text-sm text-muted-foreground mt-2 font-medium">Your configured price alerts</p>
+        <div class="p-4 sm:p-6 lg:p-10 border-b border-border/50">
+          <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Active Alerts for {{ asset.name }}</h2>
+          <p class="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2 font-medium">Your configured price alerts</p>
         </div>
-        <div class="p-10">
+        <div class="p-4 sm:p-6 lg:p-10">
           <EmptyState
             title="No alerts for this asset"
             description="Create an alert above to get notified when price reaches your target"
