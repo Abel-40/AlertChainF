@@ -60,13 +60,13 @@ A modern, real-time cryptocurrency price alert tracking application built with V
 
 - Node.js 18+ 
 - pnpm (recommended) or npm/yarn
-- Backend API running (see [crypto_mate](https://github.com/yourusername/crypto_mate))
+- Backend API running (see [AlertChain](https://github.com/Abel-40/AlertChain))
 
 ### Setup
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/alertchain-frontend.git
+   git clone https://github.com/Abel-40/AlertChain.git
    cd alertchain-frontend
    ```
 
