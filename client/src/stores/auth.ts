@@ -122,13 +122,13 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  async function resetPassword(new_password: string, token_str: string) {
+  async function resetPassword(new_password: string, code: string) {
     isLoading.value = true
     error.value = null
     try {
       await api.post<APIResponse<null>>('/alertchain/auth/reset-password', {
         new_password,
-        token: token_str,
+        code,
       })
       return true
     } catch (err: any) {

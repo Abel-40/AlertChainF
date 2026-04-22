@@ -11,14 +11,14 @@
         <h1 class="text-2xl font-bold text-center mb-6">Reset Password</h1>
 
         <form @submit.prevent="handleResetPassword" class="space-y-4">
-          <!-- Token (from URL) -->
+          <!-- Reset code (from URL or email) -->
           <div>
-            <label class="label mb-2">Reset Token</label>
+            <label class="label mb-2">Reset Code</label>
             <input
-              v-model="token"
+              v-model="code"
               type="text"
               class="input"
-              placeholder="Enter your reset token"
+              placeholder="Enter your reset code"
               required
             />
           </div>
@@ -94,7 +94,7 @@ const route = useRoute()
 const authStore = useAuthStore()
 const { toast } = useToast()
 
-const token = ref('')
+const code = ref('')
 const submitted = ref(false)
 const form = reactive({
   password: '',
@@ -106,8 +106,21 @@ const passwordMismatch = computed(() => {
 })
 
 onMounted(() => {
-  // Get token from URL query params
-  token.value = (route.query.token as string) || ''
+  // Get reset code from URL query params (if present)
+  code.value = (route.query.code as string) || ''
+
+  // If the browser/password manager autofills passwords, auto-submit once both fields are populated
+  if (code.value) {
+    const start = Date.now()
+    const interval = setInterval(async () => {
+      if (form.password && form.confirmPassword && !passwordMismatch.value) {
+        clearInterval(interval)
+        await handleResetPassword()
+      } else if (Date.now() - start > 5000) {
+        clearInterval(interval)
+      }
+    }, 300)
+  }
 })
 
 async function handleResetPassword() {
@@ -120,7 +133,7 @@ async function handleResetPassword() {
     return
   }
 
-  const success = await authStore.resetPassword(form.password, token.value)
+  const success = await authStore.resetPassword(form.password, code.value)
   if (success) {
     submitted.value = true
     toast({
